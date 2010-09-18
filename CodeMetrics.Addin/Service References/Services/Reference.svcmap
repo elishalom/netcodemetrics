@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3ab01738-e7dd-4f2f-88e5-937b6007905a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8732/Design_Time_Addresses/CodeMetrics.WorkerServices/CodeMetricsService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="a87bea70-7a92-4495-9b67-092244388fbb" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeMetrics.WorkerServices/CodeMetricsService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="f70c8d5a-d613-459d-98cf-318799765077" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeMetrics.WorkerServices/CodeMetricsService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="2fad950a-5bdb-4990-a6a4-7ee0352b58e0" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeMetrics.WorkerServices/CodeMetricsService/mex" />
+    <MetadataFile FileName="CodeMetrics.DataTransferObjects.xsd" MetadataType="Schema" ID="f4a4883d-e0f7-46c5-a257-44ffdcc2ecf5" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeMetrics.WorkerServices/CodeMetricsService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
