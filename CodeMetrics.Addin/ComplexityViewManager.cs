@@ -19,16 +19,19 @@ namespace CodeMetrics.Addin
         [DllImport("user32.dll")]
         public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-        private readonly List<ComplexityViewHost> complexityViews = new List<ComplexityViewHost>();
-        private readonly ComplexityCalculator complexityCalculator = new ComplexityCalculator();
-        private SelectionEvents selectionEvents;
+        private readonly List<ComplexityViewHost> complexityViews;
+        private readonly ComplexityCalculator complexityCalculator;
+        private readonly SelectionEvents selectionEvents;
 
 
         public ComplexityViewManager(DTE2 dte)
         {
             this.dte = dte;
-            selectionEvents = new SelectionEvents(dte);
+
+            complexityCalculator = new ComplexityCalculator();
+            complexityViews = new List<ComplexityViewHost>();
             
+            selectionEvents = new SelectionEvents(dte);
             HookSelectionEvents(selectionEvents);
         }
 
@@ -41,25 +44,22 @@ namespace CodeMetrics.Addin
 
             ClearOldComplexityViews();
 
-            IEnumerable<CodeFunction2> methods = GetMethods();
+            IEnumerable<CodeFunction2> methods = GetCodeModel().GetMethodsWithBody();
 
-            foreach (var codeFunction2 in methods)
+            foreach (var method in methods)
             {
+                POINT methodLocation = method.GetLocation(textView);
 
-                try
-                {
-                    POINT methodLocation = GetMethodLocation(codeFunction2, textView);
+                string methodBody = method.GetBody();
+                IComplexity methodComplexity = complexityCalculator.Calculate(methodBody);
 
-                    string methodBody = GetMethodBody(codeFunction2);
-                    IComplexity methodComplexity = complexityCalculator.Calculate(methodBody);
-
-                    ShowAndStoreComplexityView(textView, methodComplexity, methodLocation);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                ShowAndStoreComplexityView(textView, methodComplexity, methodLocation);
             }
+        }
+
+        private FileCodeModel GetCodeModel()
+        {
+            return dte.ActiveWindow.ProjectItem.FileCodeModel;
         }
 
         private void ShowAndStoreComplexityView(IVsTextView textView, IComplexity methodComplexity, POINT methodLocation)
@@ -73,21 +73,6 @@ namespace CodeMetrics.Addin
             SetParent(complexityView.Handle, textView.GetWindowHandle());
             ShowWindow(complexityView.Handle, 8);
             complexityViews.Add(complexityView);
-        }
-
-        private static string GetMethodBody(CodeFunction2 codeFunction2)
-        {
-            var startOfBody = codeFunction2.GetStartPoint(vsCMPart.vsCMPartBody);
-            var endOfBody = codeFunction2.GetEndPoint(vsCMPart.vsCMPartBody);
-            return startOfBody.CreateEditPoint().GetText(endOfBody.CreateEditPoint());
-        }
-
-        private static POINT GetMethodLocation(CodeFunction2 codeFunction2, IVsTextView textView)
-        {
-            var startPoint = codeFunction2.GetStartPoint(vsCMPart.vsCMPartHeader);
-            var point = new POINT[1];
-            textView.GetPointOfLineColumn(startPoint.Line, startPoint.DisplayColumn, point);
-            return point[0];
         }
 
         private IEnumerable<CodeFunction2> GetMethods()
