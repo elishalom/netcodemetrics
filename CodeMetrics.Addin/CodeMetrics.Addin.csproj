@@ -84,11 +84,6 @@
     </Compile>
     <Compile Include="ControlsPresenter.cs" />
     <Compile Include="SelectionEvents.cs" />
-    <Compile Include="Service References\Services\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -151,21 +146,11 @@
       <Link>CodeMetrics.Addin - For Testing.AddIn</Link>
     </Content>
     <Content Include="CodeMetrics.Addin.AddIn" />
-    <None Include="Service References\Services\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\Services\configuration.svcinfo" />
-    <None Include="Service References\Services\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeMetrics.Calculators\CodeMetrics.Calculators.csproj">
       <Project>{CF35E234-7831-4A2B-8F18-BBB0F8621B10}</Project>
       <Name>CodeMetrics.Calculators</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CodeMetrics.DataTransferObjects\CodeMetrics.DataTransferObjects.csproj">
-      <Project>{BC25CBE0-AE56-4174-918E-F54CA39F56C5}</Project>
-      <Name>CodeMetrics.DataTransferObjects</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -176,22 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Service References\Services\CodeMetrics.DataTransferObjects.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Services\service.wsdl" />
-    <None Include="Service References\Services\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Services\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
