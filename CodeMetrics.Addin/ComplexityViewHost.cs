@@ -7,20 +7,22 @@ namespace CodeMetrics.Addin
 {
     public class ComplexityViewHost : UserControl
     {
-        private readonly ElementHost wpfHost;
+        private ElementHost wpfHost;
 
         public ComplexityViewHost(IComplexity complexity)
         {
-            this.Size = new Size(30, 20);
+            InitializeComponent(complexity);
+        }
 
+        private void InitializeComponent(IComplexity complexity)
+        {
+            Size = new Size(30, 20);
             wpfHost = new ElementHost
-                               {
-                                   Dock = DockStyle.Fill,
-                                   Child = new ComplexityView(complexity)
-                               };
+                          {
+                              Dock = DockStyle.Fill,
+                              Child = new ComplexityView(complexity)
+                          };
             Controls.Add(wpfHost);
-
-            
         }
 
         protected override void OnPaint(PaintEventArgs e)

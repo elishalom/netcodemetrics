@@ -68,6 +68,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ComplexityViewManager.cs" />
     <Compile Include="Connect.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -77,6 +78,7 @@
     <Compile Include="ComplexityView.xaml.cs">
       <DependentUpon>ComplexityView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelectionEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -151,11 +153,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ComplexityViewHost.resx">
-      <DependentUpon>ComplexityViewHost.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
