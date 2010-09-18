@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using CodeMetrics.Calculators;
 using EnvDTE;
 using EnvDTE80;
@@ -13,15 +11,11 @@ namespace CodeMetrics.Addin
     public class ComplexityViewManager : IDisposable
     {
         private readonly DTE2 dte;
-
-        [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int cmdShow);
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-
+        
         private readonly List<ComplexityViewHost> complexityViews;
         private readonly ComplexityCalculator complexityCalculator;
         private readonly SelectionEvents selectionEvents;
+        private readonly ControlsPresenter controlsPresenter;
 
 
         public ComplexityViewManager(DTE2 dte)
@@ -33,6 +27,7 @@ namespace CodeMetrics.Addin
             
             selectionEvents = new SelectionEvents(dte);
             HookSelectionEvents(selectionEvents);
+            controlsPresenter = new ControlsPresenter();
         }
 
         void OnTextViewActivated(IVsTextView textView)
@@ -64,24 +59,11 @@ namespace CodeMetrics.Addin
 
         private void ShowAndStoreComplexityView(IVsTextView textView, IComplexity methodComplexity, POINT methodLocation)
         {
-            var complexityView = new ComplexityViewHost(methodComplexity)
-                                     {
-                                         Left = methodLocation.x,
-                                         Top = methodLocation.y
-                                     };
+            var complexityView = new ComplexityViewHost(methodComplexity);
+            
+            controlsPresenter.ShowControl(complexityView, textView.GetWindowHandle(), methodLocation);
 
-            SetParent(complexityView.Handle, textView.GetWindowHandle());
-            ShowWindow(complexityView.Handle, 8);
             complexityViews.Add(complexityView);
-        }
-
-        private IEnumerable<CodeFunction2> GetMethods()
-        {
-            var fileCodeModel = dte.ActiveWindow.ProjectItem.FileCodeModel;
-            return fileCodeModel.CodeElements.OfType<CodeNamespace>().SelectMany(
-                ns => ns.Children.OfType<CodeType>())
-                .Where(codeType => codeType.Kind == vsCMElement.vsCMElementClass)
-                .SelectMany(type => type.Children.OfType<CodeFunction2>());
         }
 
         private bool CanUpdate()
@@ -122,15 +104,15 @@ namespace CodeMetrics.Addin
             complexityViews.Clear();
         }
 
+        private void RefereshViews()
+        {
+            complexityViews.ForEach(complexityView => complexityView.Refresh());
+        }
+
         private void HookSelectionEvents(SelectionEvents selectionEvents)
         {
             selectionEvents.OnSelectionChange += OnTextViewActivated;
             selectionEvents.OnViewChange += RefereshViews;
-        }
-
-        private void RefereshViews()
-        {
-            complexityViews.ForEach(complexityView => complexityView.Refresh());
         }
 
 

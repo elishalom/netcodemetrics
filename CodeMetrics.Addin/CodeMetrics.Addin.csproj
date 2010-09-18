@@ -79,6 +79,7 @@
     <Compile Include="ComplexityView.xaml.cs">
       <DependentUpon>ComplexityView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlsPresenter.cs" />
     <Compile Include="SelectionEvents.cs" />
   </ItemGroup>
   <ItemGroup>
