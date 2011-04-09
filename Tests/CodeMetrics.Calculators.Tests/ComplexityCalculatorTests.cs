@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace CodeMetrics.Calculators.Tests
 {
@@ -16,7 +17,7 @@ namespace CodeMetrics.Calculators.Tests
 
             Assert.That(complexity.Value, Is.EqualTo(1));
         }
-    
+
         [Test]
         public void Calculate_MethodWithSingleIfWithoutElse_Return2()
         {
