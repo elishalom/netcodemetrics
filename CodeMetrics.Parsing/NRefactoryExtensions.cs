@@ -1,12 +1,10 @@
-﻿using ICSharpCode.NRefactory.Ast;
-
-namespace CodeMetrics.Parsing
+﻿namespace CodeMetrics.Parsing
 {
     public static class NRefactoryExtensions
     {
-        public static Location AsLocation(this MethodDeclaration methodDeclaration)
+        public static Location AsLocation(this ICSharpCode.NRefactory.Location location)
         {
-            return new Location(methodDeclaration.StartLocation.Line - 1, methodDeclaration.StartLocation.Column - 1);
+            return new Location(location.Line - 1, location.Column - 1);
         }
     }
 }

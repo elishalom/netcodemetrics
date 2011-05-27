@@ -21,7 +21,9 @@ namespace CodeMetrics.Parsing
         public override object VisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
         {
             var visitMethodDeclaration = base.VisitMethodDeclaration(methodDeclaration, data);
-            methods.Add(new Method(methodDeclaration.AsLocation()));
+            var startLocation = methodDeclaration.StartLocation.AsLocation();
+            var endLocation = methodDeclaration.Body.EndLocation.AsLocation();
+            methods.Add(new Method(startLocation, endLocation));
             return visitMethodDeclaration;
         }
     }

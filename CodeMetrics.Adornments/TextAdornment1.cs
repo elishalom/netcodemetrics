@@ -44,34 +44,53 @@ namespace TextAdornment1
             layer.RemoveAllAdornments();
 
             var methods = methodsExtractor.Extract(view.TextSnapshot.GetText());
-
-            var textViewLines = e.NewSnapshot.Lines;
             
             foreach (var method in methods)
             {
-                var line = textViewLines.ElementAt(method.Start.Line);
+                var line = view.TextSnapshot.Lines.ElementAt(method.Start.Line);
                 int startPosition = line.Start.Position + method.Start.Column;
+                var endLine = view.TextSnapshot.Lines.ElementAt(method.End.Line);
+                int endPosition = endLine.Start.Position + method.End.Column;
+                var complexity = complexityCalculator.Calculate(view.TextSnapshot.GetText(startPosition, endPosition - startPosition));
 
-                SnapshotSpan span = new SnapshotSpan(view.TextSnapshot, Span.FromBounds(startPosition, startPosition + 1));
+                SnapshotSpan span = new SnapshotSpan(view.TextSnapshot, Span.FromBounds(startPosition-2, startPosition -1));
                 Geometry g = view.TextViewLines.GetMarkerGeometry(span);
                 if (g != null)
                 {
-                    GeometryDrawing drawing = new GeometryDrawing(brush, pen, g);
-                    drawing.Freeze();
+//                    GeometryDrawing drawing = new GeometryDrawing(brush, pen, g);
+//                    drawing.Freeze();
 
-                    DrawingImage drawingImage = new DrawingImage(drawing);
-                    drawingImage.Freeze();
+//                    DrawingImage drawingImage = new DrawingImage(drawing);
+//                    drawingImage.Freeze();
 
-                    Image image = new Image();
-                    image.Source = drawingImage;
+//                    Image image = new Image();
+//                    image.Source = drawingImage;
+
+                    var textBlock = new TextBlock() {Text = complexity.Value.ToString()};
+                    textBlock.Width = 30;
+                    textBlock.Height = 30;
+                    textBlock.Background = Brushes.Aqua;
 
                     //Align the image with the top of the bounds of the text geometry
-                    Canvas.SetLeft(image, g.Bounds.Left);
-                    Canvas.SetTop(image, g.Bounds.Top);
+                    Canvas.SetLeft(textBlock, g.Bounds.Left);
+                    Canvas.SetTop(textBlock, g.Bounds.Top);
 
-                    layer.AddAdornment(AdornmentPositioningBehavior.TextRelative, span, null, image, null);
+                    layer.AddAdornment(AdornmentPositioningBehavior.TextRelative, span, null, textBlock, null);
                 }
             }
+        }
+
+        private int GetPosition(Location location)
+        {
+            var lineIndex = location.Line;
+            var columnIndex = location.Column;
+            int position = 0;
+            for(int i=0;i<lineIndex; i++)
+            {
+                position += view.TextViewLines[i].Length;
+            }
+            position += columnIndex;
+            return position;
         }
     }
 }

@@ -150,5 +150,38 @@ namespace MyNamespace
             Assert.That(methods.First().Start.Column, Is.EqualTo(8));
         }
 
+        [Test]
+        public void Extract_FileWithSingleClassWithSingleMethod_MethodEndLineIsCorrect()
+        {
+            const string fileCode = @"using System;
+namespace MyNamespace
+{
+    public class MyCalss
+    {
+        public void MyMethod { }
+    }
+}";
+            var methodsExtractor = new MethodsExtractor();
+            var methods = methodsExtractor.Extract(fileCode);
+
+            Assert.That(methods.First().End.Line, Is.EqualTo(5));
+        }
+        [Test]
+        public void Extract_FileWithSingleClassWithSingleMethod_MethodEndColumnIsCorrect()
+        {
+            const string fileCode = @"using System;
+namespace MyNamespace
+{
+    public class MyCalss
+    {
+        public void MyMethod { }
+    }
+}";
+            var methodsExtractor = new MethodsExtractor();
+            var methods = methodsExtractor.Extract(fileCode);
+
+            Assert.That(methods.First().End.Column, Is.EqualTo(32));
+        }
+
     }
 }
