@@ -3,7 +3,7 @@ using ICSharpCode.NRefactory.Visitors;
 
 namespace CodeMetrics.Calculators
 {
-    public class ComplexityVisitor : AbstractAstVisitor
+    public class ComplexityVisitor : AbstractAstVisitor, IMethodsVisitor
     {
         public int IfsCounter { get; private set; }
 

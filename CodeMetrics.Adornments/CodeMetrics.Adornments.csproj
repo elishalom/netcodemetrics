@@ -33,6 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Dependencies\Windsor\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\Dependencies\Windsor\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory, Version=3.2.0.5777, Culture=neutral, PublicKeyToken=efe927acf176eea2, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.CoreUtility">
       <Private>False</Private>
     </Reference>
@@ -71,6 +78,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeMetrics.Calculators\CodeMetrics.Calculators.csproj">
+      <Project>{CF35E234-7831-4A2B-8F18-BBB0F8621B10}</Project>
+      <Name>CodeMetrics.Calculators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeMetrics.Common\CodeMetrics.Common.csproj">
+      <Project>{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}</Project>
+      <Name>CodeMetrics.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeMetrics.Parsing\CodeMetrics.Parsing.csproj">
       <Project>{4F281F92-DFF0-44DF-A150-A95DC83D727D}</Project>
       <Name>CodeMetrics.Parsing</Name>

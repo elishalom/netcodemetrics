@@ -1,4 +1,10 @@
+using System;
 using System.ComponentModel.Composition;
+using System.Windows.Input;
+using Castle.Windsor;
+using CodeMetrics.Calculators;
+using CodeMetrics.Common;
+using CodeMetrics.Parsing;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
@@ -17,7 +23,11 @@ namespace TextAdornment1
 
         public void TextViewCreated(IWpfTextView textView)
         {
-            new TextAdornment1(textView);
+            WindsorContainer container = ContainerFactory.CreateContainer();
+
+            var methodsExtractor = container.Resolve<IMethodsExtractor>();
+            var complexityCalculator = container.Resolve<IComplexityCalculator>();
+            new TextAdornment1(textView, methodsExtractor, complexityCalculator);
         }
     }
 }
