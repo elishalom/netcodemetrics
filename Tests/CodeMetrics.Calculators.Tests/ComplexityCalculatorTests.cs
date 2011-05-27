@@ -1,4 +1,5 @@
 ﻿using System;
+using CodeMetrics.Common;
 using NUnit.Framework;
 
 namespace CodeMetrics.Calculators.Tests
@@ -6,13 +7,22 @@ namespace CodeMetrics.Calculators.Tests
     [TestFixture]
     public class ComplexityCalculatorTests
     {
+        private IMethodsVisitorFactory factory;
+
+        [SetUp]
+        public void Setup()
+        {
+            var windsorContainer = ContainerFactory.CreateContainer();
+            factory = windsorContainer.Resolve<IMethodsVisitorFactory>();
+        }
+
         [Test]
         public void Calculate_MethodWithSinglePath_Return1()
         {
             const string method =
 @"int x = 0;";
 
-            var calculator = new ComplexityCalculator();
+            var calculator = new ComplexityCalculator(factory);
             var complexity = calculator.Calculate(method);
 
             Assert.That(complexity.Value, Is.EqualTo(1));
@@ -27,7 +37,7 @@ namespace CodeMetrics.Calculators.Tests
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator();
+            var calculator = new ComplexityCalculator(factory);
             var complexity = calculator.Calculate(method);
 
             Assert.That(complexity.Value, Is.EqualTo(2));
@@ -46,7 +56,7 @@ else
     int y = 2;
 }";
 
-            var calculator = new ComplexityCalculator();
+            var calculator = new ComplexityCalculator(factory);
             var complexity = calculator.Calculate(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));

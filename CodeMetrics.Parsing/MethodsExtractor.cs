@@ -5,7 +5,7 @@ using ICSharpCode.NRefactory.Ast;
 
 namespace CodeMetrics.Parsing
 {
-    public class MethodsExtractor
+    public class MethodsExtractor : IMethodsExtractor
     {
         public IEnumerable<IMethod> Extract(string fileCode)
         {

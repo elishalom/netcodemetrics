@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{410CD13E-9ED3-48BD-B0CD-875AF5CC778A}</ProjectGuid>
+    <ProjectGuid>{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeMetrics.Calculators.Tests</RootNamespace>
-    <AssemblyName>CodeMetrics.Calculators.Tests</AssemblyName>
+    <RootNamespace>CodeMetrics.Common</RootNamespace>
+    <AssemblyName>CodeMetrics.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,15 +32,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
-      <HintPath>..\..\Dependencies\Windsor\Castle.Core.dll</HintPath>
+      <HintPath>..\Dependencies\Windsor\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Windsor">
-      <HintPath>..\..\Dependencies\Windsor\Castle.Windsor.dll</HintPath>
+      <HintPath>..\Dependencies\Windsor\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Nunit\nunit.framework.dll</HintPath>
-    </Reference>
+    <Reference Include="ICSharpCode.NRefactory, Version=3.2.0.5777, Culture=neutral, PublicKeyToken=efe927acf176eea2, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,17 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComplexityCalculatorTests.cs" />
+    <Compile Include="ContainerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoriesInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CodeMetrics.Calculators\CodeMetrics.Calculators.csproj">
+    <ProjectReference Include="..\CodeMetrics.Calculators\CodeMetrics.Calculators.csproj">
       <Project>{CF35E234-7831-4A2B-8F18-BBB0F8621B10}</Project>
       <Name>CodeMetrics.Calculators</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CodeMetrics.Common\CodeMetrics.Common.csproj">
-      <Project>{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}</Project>
-      <Name>CodeMetrics.Common</Name>
+    <ProjectReference Include="..\CodeMetrics.Parsing\CodeMetrics.Parsing.csproj">
+      <Project>{4F281F92-DFF0-44DF-A150-A95DC83D727D}</Project>
+      <Name>CodeMetrics.Parsing</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

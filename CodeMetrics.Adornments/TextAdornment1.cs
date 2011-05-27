@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using System.Windows.Media;
+using CodeMetrics.Calculators;
 using CodeMetrics.Parsing;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -14,8 +15,10 @@ namespace TextAdornment1
         readonly IWpfTextView view;
         readonly Brush brush;
         readonly Pen pen;
+        private readonly IMethodsExtractor methodsExtractor;
+        private readonly IComplexityCalculator complexityCalculator;
 
-        public TextAdornment1(IWpfTextView view)
+        public TextAdornment1(IWpfTextView view, IMethodsExtractor methodsExtractor, IComplexityCalculator complexityCalculator)
         {
             this.view = view;
             layer = view.GetAdornmentLayer("TextAdornment1");
@@ -32,13 +35,14 @@ namespace TextAdornment1
 
             this.brush = brush;
             this.pen = pen;
+            this.methodsExtractor = methodsExtractor;
+            this.complexityCalculator = complexityCalculator;
         }
 
         private void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
             layer.RemoveAllAdornments();
 
-            var methodsExtractor = new MethodsExtractor();
             var methods = methodsExtractor.Extract(view.TextSnapshot.GetText());
 
             var textViewLines = e.NewSnapshot.Lines;

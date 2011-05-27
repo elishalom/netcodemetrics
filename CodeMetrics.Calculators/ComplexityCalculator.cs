@@ -5,8 +5,15 @@ using ICSharpCode.NRefactory.Ast;
 
 namespace CodeMetrics.Calculators
 {
-    public class ComplexityCalculator
+    public class ComplexityCalculator : IComplexityCalculator
     {
+        private readonly IMethodsVisitorFactory methodsVisitorFactory;
+
+        public ComplexityCalculator(IMethodsVisitorFactory methodsVisitorFactory)
+        {
+            this.methodsVisitorFactory = methodsVisitorFactory;
+        }
+
         public IComplexity Calculate(string method)
         {
             BlockStatement blockStatement;
@@ -22,7 +29,7 @@ namespace CodeMetrics.Calculators
                 }
             }
 
-            var visitor = new ComplexityVisitor();
+            var visitor = methodsVisitorFactory.Create();
             blockStatement.AcceptVisitor(visitor, null);
 
 

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CodeMetrics.Calculators</RootNamespace>
     <AssemblyName>CodeMetrics.Calculators</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -49,7 +49,16 @@
     <Compile Include="ComplexityCalculator.cs" />
     <Compile Include="ComplexityVisitor.cs" />
     <Compile Include="IComplexity.cs" />
+    <Compile Include="IComplexityCalculator.cs" />
+    <Compile Include="IMethodsVisitor.cs" />
+    <Compile Include="IMethodsVisitorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeMetrics.Parsing\CodeMetrics.Parsing.csproj">
+      <Project>{4F281F92-DFF0-44DF-A150-A95DC83D727D}</Project>
+      <Name>CodeMetrics.Parsing</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
