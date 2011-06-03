@@ -33,7 +33,7 @@ namespace CodeMetrics.Calculators
             blockStatement.AcceptVisitor(visitor, null);
 
 
-            return new Complexity(visitor.IfsCounter + 1);
+            return new Complexity(visitor.BranchesCounter + 1);
         }
     }
 }

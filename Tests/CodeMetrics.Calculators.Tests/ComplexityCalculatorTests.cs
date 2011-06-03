@@ -62,6 +62,111 @@ else
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
 
+        [Test]
+        public void Calculate_MethodWithSingleWithAndOperator_Return3()
+        {
+            const string method =
+@"if(b1 && b2)
+{
+    int x = 1;
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Calculate_MethodWithSingleWithOrOperator_Return3()
+        {
+            const string method =
+@"if(b1 || b2)
+{
+    int x = 1;
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Calculate_MethodWithTwoAndOperators_Return4()
+        {
+            const string method =
+@"if(b1 && b2 && b3)
+{
+    int x = 1;
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Calculate_MethodWithAndAndOrOperators_Return4()
+        {
+            const string method =
+@"if(b1 && b2 || b3)
+{
+    int x = 1;
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Calculate_MethodWithAndAndOrOperatorsWithBrackets_Return4()
+        {
+            const string method =
+@"if(b1 && (b2 || b3))
+{
+    int x = 1;
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Calculate_MethodWithForLoop_Return2()
+        {
+            const string method =
+@"for(int i = 0; i < 10; i++)
+{
+    int x = 1;
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Calculate_MethodWithForLoopIncludingAndOperator_Return3()
+        {
+            const string method =
+@"for(int i = 0; i < 10 && i > 1; i++)
+{
+    int x = 1;
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
         public void Method(bool b)
         {
             while (b)
