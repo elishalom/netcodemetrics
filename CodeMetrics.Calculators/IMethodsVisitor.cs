@@ -4,6 +4,6 @@ namespace CodeMetrics.Calculators
 {
     public interface IMethodsVisitor : IAstVisitor
     {
-        int IfsCounter { get; }
+        int BranchesCounter { get; }
     }
 }

@@ -15,7 +15,7 @@ namespace CodeMetrics.Parsing
                 parser.Parse();
                 compilationUnit = parser.CompilationUnit;
             }
-
+            
             var methodsVisitor = new MethodsVisitor();
             compilationUnit.AcceptVisitor(methodsVisitor, null);
 

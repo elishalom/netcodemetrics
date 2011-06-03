@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using Castle.Windsor;
 using CodeMetrics.Calculators;
 using CodeMetrics.Common;
@@ -8,15 +6,17 @@ using CodeMetrics.Parsing;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
-namespace TextAdornment1
+namespace CodeMetrics.Adornments
 {
     [Export(typeof(IWpfTextViewCreationListener))]
     [ContentType("csharp")]
     [TextViewRole(PredefinedTextViewRoles.Document)]
-    internal sealed class TextAdornment1Factory : IWpfTextViewCreationListener
+    internal sealed class MeticsAdornmentFactory : IWpfTextViewCreationListener
     {
+        public const string ADORNMENT_NAME = "MetricsAdornment";
+
         [Export(typeof(AdornmentLayerDefinition))]
-        [Name("TextAdornment1")]
+        [Name(ADORNMENT_NAME)]
         [Order(After = PredefinedAdornmentLayers.Selection, Before = PredefinedAdornmentLayers.Text)]
         [TextViewRole(PredefinedTextViewRoles.Document)]
         public AdornmentLayerDefinition EditorAdornmentLayer;
@@ -27,7 +27,7 @@ namespace TextAdornment1
 
             var methodsExtractor = container.Resolve<IMethodsExtractor>();
             var complexityCalculator = container.Resolve<IComplexityCalculator>();
-            new TextAdornment1(textView, methodsExtractor, complexityCalculator);
+            new MetricsAdornment(textView, methodsExtractor, complexityCalculator);
         }
     }
 }
