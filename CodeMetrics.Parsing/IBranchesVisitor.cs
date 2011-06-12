@@ -1,8 +1,8 @@
 ﻿using ICSharpCode.NRefactory;
 
-namespace CodeMetrics.Calculators
+namespace CodeMetrics.Parsing
 {
-    public interface IMethodsVisitor : IAstVisitor
+    public interface IBranchesVisitor : IAstVisitor
     {
         int BranchesCounter { get; }
     }

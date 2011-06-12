@@ -1,5 +1,6 @@
 ﻿using System;
 using CodeMetrics.Common;
+using CodeMetrics.Parsing;
 using NUnit.Framework;
 
 namespace CodeMetrics.Calculators.Tests

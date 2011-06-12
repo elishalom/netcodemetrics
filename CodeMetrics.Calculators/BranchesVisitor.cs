@@ -1,9 +1,10 @@
-﻿using ICSharpCode.NRefactory.Ast;
+﻿using CodeMetrics.Parsing;
+using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.NRefactory.Visitors;
 
 namespace CodeMetrics.Calculators
 {
-    public class ComplexityVisitor : AbstractAstVisitor, IMethodsVisitor
+    public class BranchesVisitor : AbstractAstVisitor, IBranchesVisitor
     {
         public int BranchesCounter { get; private set; }
 
@@ -11,7 +12,7 @@ namespace CodeMetrics.Calculators
         {
             BranchesCounter++;
 
-            if(ifElseStatement.HasElseStatements)
+            if (ifElseStatement.HasElseStatements)
             {
                 BranchesCounter++;
             }

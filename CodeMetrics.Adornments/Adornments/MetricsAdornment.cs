@@ -60,10 +60,10 @@ namespace CodeMetrics.Adornments
 
         private void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
-            if(e.OldViewState.VisualSnapshot == e.OldSnapshot)
+            /*if(e.NewSnapshot == e.OldSnapshot)
             {
                 return;
-            }
+            }*/
             var textSnapshot = view.TextSnapshot;
 
             RepaintComplexity(textSnapshot);
@@ -71,10 +71,10 @@ namespace CodeMetrics.Adornments
 
         private void RepaintComplexity(ITextSnapshot textSnapshot)
         {
-            if (view.TextSnapshot != textSnapshot)
+            /*if (view.TextSnapshot != textSnapshot)
             {
                 return;
-            }
+            }*/
 
             layer.RemoveAllAdornments();
 

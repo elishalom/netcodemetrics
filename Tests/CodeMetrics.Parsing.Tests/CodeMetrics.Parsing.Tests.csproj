@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\Dependencies\Windsor\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\Dependencies\Windsor\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CodeMetrics.Common\CodeMetrics.Common.csproj">
+      <Project>{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}</Project>
+      <Name>CodeMetrics.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CodeMetrics.Parsing\CodeMetrics.Parsing.csproj">
       <Project>{4F281F92-DFF0-44DF-A150-A95DC83D727D}</Project>
       <Name>CodeMetrics.Parsing</Name>

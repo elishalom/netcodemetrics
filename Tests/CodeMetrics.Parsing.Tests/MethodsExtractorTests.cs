@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CodeMetrics.Common;
 using NUnit.Framework;
 
 namespace CodeMetrics.Parsing.Tests
@@ -6,6 +7,15 @@ namespace CodeMetrics.Parsing.Tests
     [TestFixture]
     public class MethodsExtractorTests
     {
+        private IMethodsVisitorFactory factory;
+
+        [SetUp]
+        public void Setup()
+        {
+            var windsorContainer = ContainerFactory.CreateContainer();
+            factory = windsorContainer.Resolve<IMethodsVisitorFactory>();
+        }
+
         [Test]
         public void Extract_FileWithSingleClassWithNoMethods_ReturnNoMethods()
         {
@@ -16,7 +26,7 @@ namespace MyNamespace
     {
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods, Is.Empty);
@@ -33,7 +43,7 @@ namespace MyNamespace
         public void MyMethod { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(1));
@@ -51,7 +61,7 @@ namespace MyNamespace
         public void MyMethod2 { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(2));
@@ -69,7 +79,7 @@ namespace MyNamespace
         public void MyMethod { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(1));
@@ -90,7 +100,7 @@ namespace MyNamespace
         public void MyMethod2 { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(2));
@@ -110,7 +120,7 @@ namespace MyNamespace
         }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(1));
@@ -127,7 +137,7 @@ namespace MyNamespace
         public void MyMethod { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.First().Start.Line, Is.EqualTo(5));
@@ -144,7 +154,7 @@ namespace MyNamespace
         public void MyMethod { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.First().Start.Column, Is.EqualTo(8));
@@ -161,7 +171,7 @@ namespace MyNamespace
         public void MyMethod { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.First().End.Line, Is.EqualTo(5));
@@ -177,7 +187,7 @@ namespace MyNamespace
         public void MyMethod { }
     }
 }";
-            var methodsExtractor = new MethodsExtractor();
+            var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
             Assert.That(methods.First().End.Column, Is.EqualTo(32));
