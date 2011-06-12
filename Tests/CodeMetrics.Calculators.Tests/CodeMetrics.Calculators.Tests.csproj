@@ -62,6 +62,10 @@
       <Project>{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}</Project>
       <Name>CodeMetrics.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CodeMetrics.Parsing\CodeMetrics.Parsing.csproj">
+      <Project>{4F281F92-DFF0-44DF-A150-A95DC83D727D}</Project>
+      <Name>CodeMetrics.Parsing</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

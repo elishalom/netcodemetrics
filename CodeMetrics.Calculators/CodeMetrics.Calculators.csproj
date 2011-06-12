@@ -47,11 +47,9 @@
   <ItemGroup>
     <Compile Include="Complexity.cs" />
     <Compile Include="ComplexityCalculator.cs" />
-    <Compile Include="ComplexityVisitor.cs" />
+    <Compile Include="BranchesVisitor.cs" />
     <Compile Include="IComplexity.cs" />
     <Compile Include="IComplexityCalculator.cs" />
-    <Compile Include="IMethodsVisitor.cs" />
-    <Compile Include="IMethodsVisitorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

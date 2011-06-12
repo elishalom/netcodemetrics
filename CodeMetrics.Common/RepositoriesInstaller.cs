@@ -17,7 +17,8 @@ namespace CodeMetrics.Common
             var parsingAssembly = typeof(IMethodsExtractor).Assembly;
             var calculatorsAssembly = typeof(IComplexityCalculator).Assembly;
 
-            container.Register(Component.For<IMethodsVisitor>().ImplementedBy<ComplexityVisitor>().LifeStyle.Transient);
+            container.Register(Component.For<IBranchesVisitor>().ImplementedBy<BranchesVisitor>().LifeStyle.Transient);
+            container.Register(Component.For<IMethodsVisitor>().ImplementedBy<MethodsVisitor>().LifeStyle.Transient);
             container.Register(AllTypes.FromAssembly(parsingAssembly).Pick().WithService.DefaultInterface());
             container.Register(AllTypes.FromAssembly(calculatorsAssembly).Pick().WithService.DefaultInterface());
         }

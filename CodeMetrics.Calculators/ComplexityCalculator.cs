@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using CodeMetrics.Parsing;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 
@@ -29,7 +30,7 @@ namespace CodeMetrics.Calculators
                 }
             }
 
-            var visitor = methodsVisitorFactory.Create();
+            var visitor = methodsVisitorFactory.CreateBranchesVisitor();
             blockStatement.AcceptVisitor(visitor, null);
 
 

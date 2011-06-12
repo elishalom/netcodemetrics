@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
+using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.NRefactory.Visitors;
 
 namespace CodeMetrics.Parsing
 {
-    public class MethodsVisitor : AbstractAstVisitor
+    public interface IMethodsVisitor : IAstVisitor
+    {
+        IEnumerable<IMethod> Methods { get; }
+    }
+
+    public class MethodsVisitor : AbstractAstVisitor, IMethodsVisitor
     {
         private readonly List<IMethod> methods;
 
