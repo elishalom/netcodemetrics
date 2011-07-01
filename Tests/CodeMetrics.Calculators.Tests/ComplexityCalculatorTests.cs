@@ -270,5 +270,23 @@ if(b)
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
 
+        [Test]
+        public void Calculate_NestedIf_Return3()
+        {
+            const string method =
+@"if(b1)
+{
+    if(b2)
+    {
+        int x = 1;
+    }
+}";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
     }
 }
