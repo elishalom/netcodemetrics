@@ -1,5 +1,4 @@
-﻿using System;
-using CodeMetrics.Common;
+﻿using CodeMetrics.Common;
 using CodeMetrics.Parsing;
 using NUnit.Framework;
 
