@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
-using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.NRefactory.Visitors;
 
 namespace CodeMetrics.Parsing
 {
-    public interface IMethodsVisitor : IAstVisitor
-    {
-        IEnumerable<IMethod> Methods { get; }
-    }
-
     public class MethodsVisitor : AbstractAstVisitor, IMethodsVisitor
     {
         private readonly List<IMethod> methods;
@@ -27,9 +21,10 @@ namespace CodeMetrics.Parsing
         public override object VisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
         {
             var visitMethodDeclaration = base.VisitMethodDeclaration(methodDeclaration, data);
-            var startLocation = methodDeclaration.StartLocation.AsLocation();
-            var endLocation = methodDeclaration.Body.EndLocation.AsLocation();
-            methods.Add(new Method(startLocation, endLocation));
+            var declarationLocation = methodDeclaration.StartLocation.AsLocation();
+            var bodyStartLocation = methodDeclaration.Body.StartLocation.AsLocation();
+            var bodyEndLocation = methodDeclaration.Body.EndLocation.AsLocation();
+            methods.Add(new Method(declarationLocation, bodyStartLocation, bodyEndLocation));
             return visitMethodDeclaration;
         }
     }

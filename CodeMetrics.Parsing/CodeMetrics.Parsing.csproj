@@ -46,8 +46,10 @@
     <Compile Include="IBranchesVisitor.cs" />
     <Compile Include="IMethod.cs" />
     <Compile Include="IMethodsExtractor.cs" />
+    <Compile Include="IMethodsVisitor.cs" />
     <Compile Include="IMethodsVisitorFactory.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="Method.cs" />
     <Compile Include="MethodsExtractor.cs" />
     <Compile Include="MethodsVisitor.cs" />
     <Compile Include="NRefactoryExtensions.cs" />
