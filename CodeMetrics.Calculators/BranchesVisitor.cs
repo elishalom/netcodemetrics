@@ -8,6 +8,13 @@ namespace CodeMetrics.Calculators
     {
         public int BranchesCounter { get; protected set; }
 
+
+        public override object VisitTryCatchStatement(TryCatchStatement tryCatchStatement, object data)
+        {
+            BranchesCounter++;
+            return base.VisitTryCatchStatement(tryCatchStatement, data);
+        }
+
         public override object VisitIfElseStatement(IfElseStatement ifElseStatement, object data)
         {
             BranchesCounter++;

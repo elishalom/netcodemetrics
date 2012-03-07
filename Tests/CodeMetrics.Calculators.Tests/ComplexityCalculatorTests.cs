@@ -1,6 +1,7 @@
 ﻿using CodeMetrics.Common;
 using CodeMetrics.Parsing;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace CodeMetrics.Calculators.Tests
 {
@@ -27,6 +28,19 @@ namespace CodeMetrics.Calculators.Tests
 
             Assert.That(complexity.Value, Is.EqualTo(1));
         }
+
+        [Test]
+        public void Calculate_MethodWithTryCatch_Return2()
+        {
+            const string method =
+                @"try { } catch (Exception ex) { }";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(2));
+        }
+
 
         [Test]
         public void Calculate_MethodWithSingleIfWithoutElse_Return2()
