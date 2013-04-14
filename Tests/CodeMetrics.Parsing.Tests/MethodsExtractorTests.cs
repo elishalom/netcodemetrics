@@ -144,6 +144,23 @@ namespace MyNamespace
         }
 
         [Test]
+        public void Extract_FileWithSingleClassWithSingleMethodWithOptParameter_MethodStartLineIsCorrect()
+        {
+            const string fileCode = @"using System;
+namespace MyNamespace
+{
+    public class MyCalss
+    {
+        public void MyMethod(int x = 0) { }
+    }
+}";
+            var methodsExtractor = new MethodsExtractor(factory);
+            var methods = methodsExtractor.Extract(fileCode);
+
+            Assert.That(methods.First().Decleration.Line, Is.EqualTo(5));
+        }
+
+        [Test]
         public void Extract_FileWithSingleClassWithSingleMethod_MethodStartColumnIsCorrect()
         {
             const string fileCode = @"using System;
