@@ -46,7 +46,6 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\Dependencies\Windsor\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory, Version=3.2.0.5777, Culture=neutral, PublicKeyToken=efe927acf176eea2, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.CoreUtility">
       <Private>False</Private>
     </Reference>

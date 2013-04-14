@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CodeMetrics.Parsing;
-using ICSharpCode.NRefactory;
-using ICSharpCode.NRefactory.Ast;
+using ICSharpCode.NRefactory.CSharp;
 
 namespace CodeMetrics.Calculators
 {
@@ -17,21 +17,22 @@ namespace CodeMetrics.Calculators
 
         public IComplexity Calculate(string method)
         {
-            BlockStatement blockStatement;
-            using (var parser = ParserFactory.CreateParser(SupportedLanguage.CSharp, new StringReader(method)))
+            IEnumerable<Statement> blockStatement;
+            var parser = new CSharpParser();
+            try
             {
-                try
-                {
-                    blockStatement = parser.ParseBlock();
-                }
-                catch (NullReferenceException e)
-                {
-                    return new Complexity(1);
-                }
+                blockStatement = parser.ParseStatements(method);
+            }
+            catch (NullReferenceException e)
+            {
+                return new Complexity(1);
             }
 
             var visitor = methodsVisitorFactory.CreateBranchesVisitor();
-            blockStatement.AcceptVisitor(visitor, null);
+            foreach (var statement in blockStatement)
+            {
+                statement.AcceptVisitor(visitor);
+            }
 
 
             return new Complexity(visitor.BranchesCounter + 1);

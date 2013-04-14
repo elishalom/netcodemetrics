@@ -1,18 +1,19 @@
 ﻿using CodeMetrics.Parsing;
-using ICSharpCode.NRefactory.Ast;
-using ICSharpCode.NRefactory.Visitors;
+using ICSharpCode.NRefactory.CSharp;
 
 namespace CodeMetrics.Calculators
 {
-    public class BranchesVisitor : AbstractAstVisitor, IBranchesVisitor
+    public class BranchesVisitor : DepthFirstAstVisitor, IBranchesVisitor
     {
         public int BranchesCounter { get; protected set; }
 
-        public override object VisitIfElseStatement(IfElseStatement ifElseStatement, object data)
+        public override void VisitIfElseStatement(IfElseStatement ifElseStatement)
         {
+            base.VisitIfElseStatement(ifElseStatement);
+
             BranchesCounter++;
 
-            if (ifElseStatement.HasElseStatements)
+            if (!ifElseStatement.FalseStatement.IsNull)
             {
                 BranchesCounter++;
             }
@@ -20,36 +21,51 @@ namespace CodeMetrics.Calculators
             var conditionComplexity = GetConditionComplexity(ifElseStatement.Condition);
             BranchesCounter += conditionComplexity;
 
-            return base.VisitIfElseStatement(ifElseStatement, data);
+            
         }
 
         private static int GetConditionComplexity(Expression condition)
         {
             var branchesVisitorImpl = new ConditionVisitor();
-            condition.AcceptVisitor(branchesVisitorImpl, null);
+            condition.AcceptVisitor(branchesVisitorImpl);
             return branchesVisitorImpl.BranchesCounter;
         }
 
-        public override object VisitForStatement(ForStatement forStatement, object data)
+        public override void VisitForStatement(ForStatement forStatement)
         {
+            base.VisitForStatement(forStatement);
+
             BranchesCounter++;
             var conditionComplexity = GetConditionComplexity(forStatement.Condition);
             BranchesCounter += conditionComplexity;
-            return base.VisitForStatement(forStatement, data);
+            
         }
 
-        public override object VisitForeachStatement(ForeachStatement foreachStatement, object data)
+        public override void VisitForeachStatement(ForeachStatement foreachStatement)
         {
+            base.VisitForeachStatement(foreachStatement);
+
             BranchesCounter++;
-            return base.VisitForeachStatement(foreachStatement, data);
         }
 
-        public override object VisitDoLoopStatement(DoLoopStatement doLoopStatement, object data)
+
+        public override void VisitWhileStatement(WhileStatement whileStatement)
         {
+            base.VisitWhileStatement(whileStatement);
+
+            BranchesCounter++;
+
+            var conditionComplexity = GetConditionComplexity(whileStatement.Condition);
+            BranchesCounter += conditionComplexity;
+        }
+
+        public override void VisitDoWhileStatement(DoWhileStatement doLoopStatement)
+        {
+            base.VisitDoWhileStatement(doLoopStatement);
+
             BranchesCounter++;
             var conditionComplexity = GetConditionComplexity(doLoopStatement.Condition);
             BranchesCounter += conditionComplexity;
-            return base.VisitDoLoopStatement(doLoopStatement, data);
         }
     }
 }
