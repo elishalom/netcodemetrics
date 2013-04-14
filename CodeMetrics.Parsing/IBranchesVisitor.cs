@@ -1,4 +1,5 @@
 ﻿using ICSharpCode.NRefactory;
+using ICSharpCode.NRefactory.CSharp;
 
 namespace CodeMetrics.Parsing
 {

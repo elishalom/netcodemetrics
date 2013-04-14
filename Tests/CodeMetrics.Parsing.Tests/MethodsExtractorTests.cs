@@ -40,7 +40,7 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod { }
+        public void MyMethod() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
@@ -57,8 +57,8 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod1 { }
-        public void MyMethod2 { }
+        public void MyMethod1() { }
+        public void MyMethod2() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
@@ -76,7 +76,7 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod { }
+        public void MyMethod() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
@@ -93,11 +93,11 @@ namespace MyNamespace
 {
     public class MyCalss1
     {
-        public void MyMethod1 { }
+        public void MyMethod1() { }
     }
     public class MyCalss2
     {
-        public void MyMethod2 { }
+        public void MyMethod2() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
@@ -116,7 +116,7 @@ namespace MyNamespace
     {
         public class MyNestedCalss
         {
-            public void MyMethod { }
+            public void MyMethod() { }
         }
     }
 }";
@@ -134,7 +134,7 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod { }
+        public void MyMethod() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
@@ -151,7 +151,7 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod { }
+        public void MyMethod() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
@@ -168,7 +168,7 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod { }
+        public void MyMethod() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
@@ -184,13 +184,13 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod { }
+        public void MyMethod() { }
     }
 }";
             var methodsExtractor = new MethodsExtractor(factory);
             var methods = methodsExtractor.Extract(fileCode);
 
-            Assert.That(methods.First().BodyEnd.Column, Is.EqualTo(32));
+            Assert.That(methods.First().BodyEnd.Column, Is.EqualTo(34));
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod
+        public void MyMethod()
         {
         }
     }
@@ -220,7 +220,7 @@ namespace MyNamespace
 {
     public class MyCalss
     {
-        public void MyMethod
+        public void MyMethod()
         {
         }
     }

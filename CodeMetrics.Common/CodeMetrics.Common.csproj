@@ -44,7 +44,9 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\Dependencies\Windsor\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory, Version=3.2.0.5777, Culture=neutral, PublicKeyToken=efe927acf176eea2, processorArchitecture=MSIL" />
+    <Reference Include="ICSharpCode.NRefactory.CSharp">
+      <HintPath>..\Dependencies\NRefactory\ICSharpCode.NRefactory.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

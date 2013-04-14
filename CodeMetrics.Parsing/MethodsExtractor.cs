@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using ICSharpCode.NRefactory;
-using ICSharpCode.NRefactory.Ast;
+using ICSharpCode.NRefactory.CSharp;
 
 namespace CodeMetrics.Parsing
 {
@@ -16,15 +15,11 @@ namespace CodeMetrics.Parsing
 
         public IEnumerable<IMethod> Extract(string fileCode)
         {
-            CompilationUnit compilationUnit;
-            using (var parser = ParserFactory.CreateParser(SupportedLanguage.CSharp, new StringReader(fileCode)))
-            {
-                parser.Parse();
-                compilationUnit = parser.CompilationUnit;
-            }
+            var parser = new CSharpParser();
+            SyntaxTree syntaxTree = parser.Parse(new StringReader(fileCode));
 
             var methodsVisitor = visitorsFactory.CreateMethodsVisitor();
-            compilationUnit.AcceptVisitor(methodsVisitor, null);
+            syntaxTree.AcceptVisitor(methodsVisitor);
 
             return methodsVisitor.Methods;
         }

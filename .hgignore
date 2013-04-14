@@ -6,3 +6,4 @@ _ReSharper*
 *.ncb
 *.suo
 *.ReSharper.user
+CodeMetrics.sln.DotSettings.user
