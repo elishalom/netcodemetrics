@@ -3,7 +3,7 @@
   <Identifier Id="CodeMetrices.9dc27cdd-a2d5-4598-95e0-2635827a21c3">
     <Name>Code Metrices</Name>
     <Author>Eli Shalom</Author>
-    <Version>0.6</Version>
+    <Version>0.6.1</Version>
     <Description xml:space="preserve">Code complexity addin</Description>
     <Locale>1033</Locale>
     <SupportedProducts>
