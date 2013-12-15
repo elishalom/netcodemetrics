@@ -9,7 +9,8 @@ namespace CodeMetrics.Parsing
             return new List<IMethodsVisitor>()
             {
                 new MethodsVisitor(),
-                new ConstructorsVisitor()
+                new ConstructorsVisitor(),
+                new PropertyVisitor()
             };
         }
     }
