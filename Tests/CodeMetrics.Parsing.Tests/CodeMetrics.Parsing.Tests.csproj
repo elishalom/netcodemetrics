@@ -50,8 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstructorExtractorTests.cs" />
+    <Compile Include="ExtractorsTestBase.cs" />
     <Compile Include="MethodsExtractorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyExtractorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeMetrics.Common\CodeMetrics.Common.csproj">
