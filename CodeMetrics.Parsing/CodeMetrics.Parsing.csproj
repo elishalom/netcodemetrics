@@ -56,6 +56,7 @@
     <Compile Include="..\Version\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="PropertyVisitor.cs" />
     <Compile Include="ConstructorsVisitor.cs" />
     <Compile Include="IBranchesVisitor.cs" />
     <Compile Include="IMethod.cs" />
