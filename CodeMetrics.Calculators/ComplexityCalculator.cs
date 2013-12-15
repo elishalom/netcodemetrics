@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using CodeMetrics.Parsing;
 using ICSharpCode.NRefactory.CSharp;
 
@@ -8,9 +7,9 @@ namespace CodeMetrics.Calculators
 {
     public class ComplexityCalculator : IComplexityCalculator
     {
-        private readonly IMethodsVisitorFactory methodsVisitorFactory;
+        private readonly IBranchesVisitorFactory methodsVisitorFactory;
 
-        public ComplexityCalculator(IMethodsVisitorFactory methodsVisitorFactory)
+        public ComplexityCalculator(IBranchesVisitorFactory methodsVisitorFactory)
         {
             this.methodsVisitorFactory = methodsVisitorFactory;
         }

@@ -21,5 +21,10 @@ namespace CodeMetrics.Calculators
         }
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, args) => { };
+
+        public override string ToString()
+        {
+            return string.Format("Complexity:{0}", value);
+        }
     }
 }
