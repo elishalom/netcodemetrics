@@ -7,13 +7,13 @@ namespace CodeMetrics.Calculators.Tests
     [TestFixture]
     public class ComplexityCalculatorTests
     {
-        private IMethodsVisitorFactory factory;
+        private IBranchesVisitorFactory factory;
 
         [SetUp]
         public void Setup()
         {
             var windsorContainer = ContainerFactory.CreateContainer();
-            factory = windsorContainer.Resolve<IMethodsVisitorFactory>();
+            factory = windsorContainer.Resolve<IBranchesVisitorFactory>();
         }
 
         [Test]

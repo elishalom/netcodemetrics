@@ -1,8 +1,14 @@
-﻿namespace CodeMetrics.Parsing
+﻿using System.Collections.Generic;
+
+namespace CodeMetrics.Parsing
 {
-    public interface IMethodsVisitorFactory
+    public interface IBranchesVisitorFactory
     {
         IBranchesVisitor CreateBranchesVisitor();
-        IMethodsVisitor CreateMethodsVisitor();
+    }
+
+    public interface IMethodsVisitorFactory
+    {
+        IEnumerable<IMethodsVisitor> CreateMethodsVisitor();
     }
 }
