@@ -30,6 +30,10 @@ namespace CodeMetrics.Parsing
 
         private void AddAccessorMethod(Accessor accessor)
         {
+            // getter or setter is missing
+            if (accessor.StartLocation.Line <= 0)
+                return;
+
             var accessorStartLocation = accessor.StartLocation.AsLocation();
             var accessorEndLocation = accessor.EndLocation.AsLocation();
             properties.Add(new Method(accessorStartLocation, accessorStartLocation, accessorEndLocation));
