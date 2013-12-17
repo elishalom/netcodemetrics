@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ComplexityCalculatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodeMetrics.Calculators\CodeMetrics.Calculators.csproj">
