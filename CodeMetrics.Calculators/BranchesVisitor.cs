@@ -67,5 +67,19 @@ namespace CodeMetrics.Calculators
             var conditionComplexity = GetConditionComplexity(doLoopStatement.Condition);
             BranchesCounter += conditionComplexity;
         }
+
+        public override void VisitSwitchSection(SwitchSection switchSection)
+        {
+            base.VisitSwitchSection(switchSection);
+
+            if (IsNotDefaultCase(switchSection))
+                BranchesCounter++;
+        }
+
+        private static bool IsNotDefaultCase(SwitchSection switchSection)
+        {
+            var firstCaseLabel = switchSection.CaseLabels.FirstOrNullObject();
+            return ((TokenRole)firstCaseLabel.FirstChild.Role).Token != "default";
+        }
     }
 }
