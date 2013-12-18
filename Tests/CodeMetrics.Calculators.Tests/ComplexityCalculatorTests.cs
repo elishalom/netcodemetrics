@@ -273,6 +273,39 @@ if(b)
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
 
+        [Test]
+        public void Calculate_SwitchWithTreeCasesWithoutDefault_Return4()
+        {
+            const string method =
+@"switch (sf)
+{
+    case 0: break;
+    case 1: break;
+    case 2: break;
+}";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Calculate_SwitchWithTreeCasesWithDefault_Return4()
+        {
+            const string method =
+@"switch (sf)
+{
+    case 0: break;
+    case 1: break;
+    case 2: break;
+    default: break;
+}";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(4));
+        }
+
         private IComplexity CalculateMethodComplexity(string method)
         {
             var calculator = new ComplexityCalculator(factory);
