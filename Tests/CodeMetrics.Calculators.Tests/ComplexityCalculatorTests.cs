@@ -1,5 +1,8 @@
-﻿using CodeMetrics.Common;
+﻿using System;
+using CodeMetrics.Common;
 using CodeMetrics.Parsing;
+using ICSharpCode.NRefactory.CSharp;
+using Moq;
 using NUnit.Framework;
 
 namespace CodeMetrics.Calculators.Tests
@@ -22,8 +25,7 @@ namespace CodeMetrics.Calculators.Tests
             const string method =
                 @"int x = 0;";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(1));
         }
@@ -37,8 +39,7 @@ namespace CodeMetrics.Calculators.Tests
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(2));
         }
@@ -56,8 +57,7 @@ else
     int y = 2;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
@@ -71,8 +71,7 @@ else
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
@@ -86,8 +85,7 @@ else
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
@@ -101,8 +99,7 @@ else
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(4));
         }
@@ -116,8 +113,7 @@ else
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(4));
         }
@@ -131,8 +127,7 @@ else
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(4));
         }
@@ -146,8 +141,7 @@ else
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(2));
         }
@@ -161,8 +155,7 @@ else
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
@@ -173,8 +166,7 @@ else
             const string method =
                 @"bool b = b1 && b2;";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(1));
         }
@@ -189,8 +181,7 @@ if(b)
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
@@ -204,8 +195,7 @@ if(b)
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(2));
         }
@@ -219,8 +209,7 @@ if(b)
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(2));
         }
@@ -234,8 +223,7 @@ if(b)
     int x = 1;
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
@@ -249,8 +237,7 @@ if(b)
     int x = 1;
 } while(b);";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(2));
         }
@@ -264,8 +251,7 @@ if(b)
     int x = 1;
 } while(b1 && b2);";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
@@ -282,11 +268,40 @@ if(b)
     }
 }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
 
+        private IComplexity CalculateMethodComplexity(string method)
+        {
+            var calculator = new ComplexityCalculator(factory);
+            return calculator.Calculate(method);
+        }
+
+        [Test]
+        public void Calculate_ThrownsNullReferenceException_Returns1()
+        {
+            // here the method it self doesnt have to be invalid, the factory is failing
+            const string method = @"if(b1) { }";
+            var stubFactory = SetupFailingStubFactory();
+
+            var calculator = new ComplexityCalculator(stubFactory.Object);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(1));
+        }
+
+        private static Mock<IBranchesVisitorFactory> SetupFailingStubFactory()
+        {
+            var failinVisitor = new Mock<DepthFirstAstVisitor>();
+            var falingCalculator = failinVisitor.As<IBranchesVisitor>();
+            failinVisitor.Setup(visitor => visitor.VisitIfElseStatement(It.IsAny<IfElseStatement>()))
+                         .Throws<NullReferenceException>();
+            var stubFactory = new Mock<IBranchesVisitorFactory>();
+            stubFactory.Setup(stub => stub.CreateBranchesVisitor())
+                       .Returns(falingCalculator.Object);
+            return stubFactory;
+        }
     }
 }
