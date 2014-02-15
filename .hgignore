@@ -7,3 +7,6 @@ _ReSharper*
 *.suo
 *.ReSharper.user
 CodeMetrics.sln.DotSettings.user
+packages/**
+TestResult.xml
+GlobalAssemblyInfo.cs
