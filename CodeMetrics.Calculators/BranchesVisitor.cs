@@ -68,11 +68,6 @@ namespace CodeMetrics.Calculators
             BranchesCounter += conditionComplexity;
         }
 
-        public void VisitSwitchStatement(SwitchStatement switchStatement)
-        {
-            base.VisitSwitchStatement(switchStatement);
-        }
-
         public override void VisitSwitchSection(SwitchSection switchSection)
         {
             base.VisitSwitchSection(switchSection);

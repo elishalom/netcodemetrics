@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Target Name="RunTests">
+  <!-- Run Unit tests -->
+  <CreateItem Include="$(OutDir)*.Tests.dll">
+    <Output TaskParameter="Include" ItemName="TestAssembly" />
+  </CreateItem>
+  <NUnit ToolPath="..\Tools\NUnit" DisableShadowCopy="true" Assemblies="@(TestAssembly)" />
+</Target>
