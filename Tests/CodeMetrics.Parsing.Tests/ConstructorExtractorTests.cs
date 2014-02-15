@@ -9,7 +9,7 @@ namespace CodeMetrics.Parsing.Tests
     /// learning tests for parsing the class Constructors
     /// </summary>
     [TestFixture]
-    internal class ConstructorExtractorTests : ExtractorsTestBase
+    public class ConstructorExtractorTests : ExtractorsTestBase
     {
         [Test]
         public void Extract_FileWithSingleClassWithNoConstructor_ReturnNoConstructor()

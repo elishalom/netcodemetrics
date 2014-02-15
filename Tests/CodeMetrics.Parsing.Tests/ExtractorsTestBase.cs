@@ -8,7 +8,7 @@ namespace CodeMetrics.Parsing.Tests
     /// Fresh Test fixture for all kind of extractors
     /// </summary>
     [TestFixture]
-    internal class ExtractorsTestBase
+    public class ExtractorsTestBase
     {
         protected const string OneEmptyClass = @"using System;
 namespace MyNamespace

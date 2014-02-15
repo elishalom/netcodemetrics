@@ -56,8 +56,6 @@
     <Compile Include="..\Version\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="PropertyVisitor.cs" />
-    <Compile Include="ConstructorsVisitor.cs" />
     <Compile Include="IBranchesVisitor.cs" />
     <Compile Include="IMethod.cs" />
     <Compile Include="IMethodsExtractor.cs" />
@@ -67,7 +65,6 @@
     <Compile Include="Method.cs" />
     <Compile Include="MethodsExtractor.cs" />
     <Compile Include="MethodsVisitor.cs" />
-    <Compile Include="MethodsVisitorFactory.cs" />
     <Compile Include="NRefactoryExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
