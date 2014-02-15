@@ -15,13 +15,13 @@ namespace CodeMetrics.Common
             container.Register(Component.For<IBranchesVisitorFactory>().AsFactory());
             container.Register(Component.For<IMethodsVisitorFactory>().AsFactory());
 
-            var parsingAssembly = typeof(IMethodsExtractor).Assembly;
-            var calculatorsAssembly = typeof(IComplexityCalculator).Assembly;
-
             container.Register(Component.For<IBranchesVisitor>().ImplementedBy<BranchesVisitor>().LifeStyle.Transient);
             container.Register(Component.For<IMethodsVisitor>().ImplementedBy<MethodsVisitor>().LifeStyle.Transient);
-            container.Register(AllTypes.FromAssembly(parsingAssembly).Pick().WithService.DefaultInterface());
-            container.Register(AllTypes.FromAssembly(calculatorsAssembly).Pick().WithService.DefaultInterface());
+
+            var parsingAssembly = typeof(IMethodsExtractor).Assembly;
+            var calculatorsAssembly = typeof(IComplexityCalculator).Assembly;
+            container.Register(Classes.FromAssembly(parsingAssembly).Pick().WithServiceDefaultInterfaces());
+            container.Register(Classes.FromAssembly(calculatorsAssembly).Pick().WithServiceDefaultInterfaces());
         }
     }
 }
