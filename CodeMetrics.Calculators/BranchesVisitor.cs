@@ -68,18 +68,25 @@ namespace CodeMetrics.Calculators
             BranchesCounter += conditionComplexity;
         }
 
+        public void VisitSwitchStatement(SwitchStatement switchStatement)
+        {
+            base.VisitSwitchStatement(switchStatement);
+        }
+
         public override void VisitSwitchSection(SwitchSection switchSection)
         {
             base.VisitSwitchSection(switchSection);
 
-            if (IsNotDefaultCase(switchSection))
+            if (!IsDefaultCase(switchSection))
+            {
                 BranchesCounter++;
+            }
         }
 
-        private static bool IsNotDefaultCase(SwitchSection switchSection)
+        private static bool IsDefaultCase(SwitchSection switchSection)
         {
-            var firstCaseLabel = switchSection.CaseLabels.FirstOrNullObject();
-            return ((TokenRole)firstCaseLabel.FirstChild.Role).Token != "default";
+            CaseLabel firstCaseLabel = switchSection.CaseLabels.FirstOrNullObject();
+            return firstCaseLabel.Expression.IsNull;
         }
     }
 }
