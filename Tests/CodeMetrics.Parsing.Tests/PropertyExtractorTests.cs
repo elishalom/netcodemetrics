@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace CodeMetrics.Parsing.Tests
 {
     [TestFixture]
-    internal class PropertyExtractorTests : ExtractorsTestBase
+    public class PropertyExtractorTests : ExtractorsTestBase
     {
         private const string AutomaticPropertyOnTwoLines = @"using System;
 namespace MyNamespace
@@ -33,21 +33,11 @@ namespace MyNamespace
 }";
 
         [Test]
-        public void Extract_FileWithSingleClassWithAutomaticProperty_CorrectGetterLine()
+        public void Extract_FileWithSingleClassWithAutomaticProperty_IgnoresAccessors()
         {
             var methods = ExtractMethods(AutomaticPropertyOnTwoLines);
-            int getterStart = methods.First().BodyStart.Line;
-            
-            Assert.That(getterStart, Is.EqualTo(7));
-        }
 
-        [Test]
-        public void Extract_FileWithSingleClassWithAutomaticProperty_CorrectSetterLine()
-        {
-            var methods = ExtractMethods(AutomaticPropertyOnTwoLines);
-            int setterStart = methods.ToList()[1].BodyStart.Line;
-            
-            Assert.That(setterStart, Is.EqualTo(8));
+            Assert.That(methods, Is.Empty);
         }
 
         [Test]
@@ -77,7 +67,7 @@ namespace MyNamespace
         }
 
         [Test]
-        public void Extract_FileWithSingleClassWithAutomaticProperty_ReturnTwoMethods()
+        public void Extract_FileWithSingleClassWithAutomaticProperty_IgnoresProperty()
         {
             const string fileCode = @"using System;
 namespace MyNamespace
@@ -90,7 +80,7 @@ namespace MyNamespace
 
             var methods = ExtractMethods(fileCode);
 
-            Assert.That(methods.Count(), Is.EqualTo(2));
+            Assert.That(methods.Count(), Is.EqualTo(0));
         }
 
         [Test]
