@@ -13,6 +13,13 @@ namespace CodeMetrics.Calculators
             BranchesCounter++;
         }
 
+        public override void VisitConditionalExpression(ConditionalExpression conditionalExpression)
+        {
+            base.VisitConditionalExpression(conditionalExpression);
+            BranchesCounter += 2;
+
+        }
+
         public override void VisitIfElseStatement(IfElseStatement ifElseStatement)
         {
             base.VisitIfElseStatement(ifElseStatement);
