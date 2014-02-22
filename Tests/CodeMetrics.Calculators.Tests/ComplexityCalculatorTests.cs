@@ -4,7 +4,6 @@ using CodeMetrics.Parsing;
 using ICSharpCode.NRefactory.CSharp;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace CodeMetrics.Calculators.Tests
 {

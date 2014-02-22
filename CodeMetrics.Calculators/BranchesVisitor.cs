@@ -7,13 +7,13 @@ namespace CodeMetrics.Calculators
     {
         public int BranchesCounter { get; protected set; }
 
-        public override object VisitTryCatchStatement(TryCatchStatement tryCatchStatement, object data)
+        public override void VisitTryCatchStatement(TryCatchStatement tryCatchStatement)
         {
+            base.VisitTryCatchStatement(tryCatchStatement);
             BranchesCounter++;
-            return base.VisitTryCatchStatement(tryCatchStatement, data);
         }
 
-        public override object VisitIfElseStatement(IfElseStatement ifElseStatement, object data)
+        public override void VisitIfElseStatement(IfElseStatement ifElseStatement)
         {
             base.VisitIfElseStatement(ifElseStatement);
 

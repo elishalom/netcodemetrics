@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using CodeMetrics.Common;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace CodeMetrics.Parsing.Tests
 {
