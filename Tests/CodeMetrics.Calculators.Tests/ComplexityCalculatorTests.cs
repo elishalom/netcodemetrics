@@ -349,5 +349,17 @@ if(b)
                        .Returns(falingCalculator.Object);
             return stubFactory;
         }
+
+        [Test]
+        public void Calculate_TrinaryOperator_Return3()
+        {
+            const string method =
+@"int x = 1 > 0 ? 1 : 0";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
     }
 }
