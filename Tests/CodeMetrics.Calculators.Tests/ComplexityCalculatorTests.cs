@@ -31,6 +31,19 @@ namespace CodeMetrics.Calculators.Tests
         }
 
         [Test]
+        public void Calculate_MethodWithTryCatch_Return2()
+        {
+            const string method =
+                @"try { } catch (Exception ex) { }";
+
+            var calculator = new ComplexityCalculator(factory);
+            var complexity = calculator.Calculate(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(2));
+        }
+
+
+        [Test]
         public void Calculate_MethodWithSingleIfWithoutElse_Return2()
         {
             const string method =
@@ -336,5 +349,17 @@ if(b)
                        .Returns(falingCalculator.Object);
             return stubFactory;
         }
+
+        [Test]
+        public void Calculate_TrinaryOperator_Return3()
+        {
+            const string method =
+@"int x = 1 > 0 ? 1 : 0";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CodeMetrics.Parsing
+﻿namespace CodeMetrics.Parsing
 {
     public interface IBranchesVisitorFactory
     {
@@ -9,6 +7,6 @@ namespace CodeMetrics.Parsing
 
     public interface IMethodsVisitorFactory
     {
-        IEnumerable<IMethodsVisitor> CreateMethodsVisitor();
+        IMethodsVisitor CreateMethodsVisitor();
     }
 }

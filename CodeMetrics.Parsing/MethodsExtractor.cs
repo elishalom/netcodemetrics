@@ -18,15 +18,9 @@ namespace CodeMetrics.Parsing
             var parser = new CSharpParser();
             SyntaxTree syntaxTree = parser.Parse(new StringReader(fileCode));
 
-            var methods = new List<IMethod>();
-            var methodsVisitor = visitorsFactory.CreateMethodsVisitor();
-            foreach (var visitor in methodsVisitor)
-            {
-                syntaxTree.AcceptVisitor(visitor);
-                methods.AddRange(visitor.Methods);
-            }
-
-            return methods;
+            IMethodsVisitor methodsVisitor = visitorsFactory.CreateMethodsVisitor();
+            syntaxTree.AcceptVisitor(methodsVisitor);
+            return methodsVisitor.Methods;
         }
     }
 }
