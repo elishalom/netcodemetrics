@@ -361,5 +361,16 @@ if(b)
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
 
+        [Test, Ignore("Not supported yet")]
+        public void Calculate_Coalescing_Operator_Return3()
+        {
+            const string method = @"
+object a null;
+object b = a ?? string.Emtpy";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3)); 
+        }
     }
 }
