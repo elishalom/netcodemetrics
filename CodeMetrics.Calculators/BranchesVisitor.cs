@@ -1,8 +1,13 @@
-﻿using CodeMetrics.Parsing;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CodeMetrics.Parsing;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.NRefactory.PatternMatching;
 
 namespace CodeMetrics.Calculators
 {
+
+
     public class BranchesVisitor : DepthFirstAstVisitor, IBranchesVisitor
     {
         public int BranchesCounter { get; protected set; }
@@ -17,7 +22,6 @@ namespace CodeMetrics.Calculators
         {
             base.VisitConditionalExpression(conditionalExpression);
             BranchesCounter += 2;
-
         }
 
         public override void VisitIfElseStatement(IfElseStatement ifElseStatement)
@@ -33,14 +37,22 @@ namespace CodeMetrics.Calculators
 
             var conditionComplexity = GetConditionComplexity(ifElseStatement.Condition);
             BranchesCounter += conditionComplexity;
-
-            
         }
 
-        private static int GetConditionComplexity(Expression condition)
+        private int GetConditionComplexity(Expression condition)
         {
             var branchesVisitorImpl = new ConditionVisitor();
-            condition.AcceptVisitor(branchesVisitorImpl);
+            string conditionText = condition.GetText();
+
+            if (condition is BinaryOperatorExpression)
+            {
+                condition.AcceptVisitor(branchesVisitorImpl);
+            }
+            else if(booleanVariables.Keys.Contains(conditionText))
+            {
+                booleanVariables[conditionText].AcceptVisitor(branchesVisitorImpl);
+            }
+
             return branchesVisitorImpl.BranchesCounter;
         }
 
@@ -89,6 +101,63 @@ namespace CodeMetrics.Calculators
             {
                 BranchesCounter++;
             }
+        }
+
+        private readonly Dictionary<string, Expression> booleanVariables = new Dictionary<string, Expression>();
+
+        public override void VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement)
+        {
+            base.VisitVariableDeclarationStatement(variableDeclarationStatement);
+
+            if (isDeclaringCondition(variableDeclarationStatement))
+            {
+                foreach (var variable in variableDeclarationStatement.Variables)
+                {
+                    booleanVariables[variable.Name] = variable.Initializer;
+                }
+            }
+        }
+
+        private static bool isDeclaringCondition(VariableDeclarationStatement variableDeclarationStatement)
+        {
+            var conditionalAndPattern = new VariableDeclarationStatement
+                    {
+                        Type = new AnyNode(),
+                        Variables = 
+                        { 
+                            new VariableInitializer
+                                {
+                                    Name = Pattern.AnyString,
+                                    Initializer = new BinaryOperatorExpression
+                                            {
+                                                Left = new AnyNode(),
+                                                Operator = BinaryOperatorType.ConditionalAnd,
+                                                Right = new AnyNode()
+                                            }
+                                }
+                        }
+                    };
+
+            var conditionalOrPattern = new VariableDeclarationStatement
+                    {
+                        Type = new AnyNode(),
+                        Variables = 
+                        { 
+                            new VariableInitializer
+                                {
+                                    Name = Pattern.AnyString,
+                                    Initializer = new BinaryOperatorExpression
+                                            {
+                                                Left = new AnyNode(),
+                                                Operator = BinaryOperatorType.ConditionalOr,
+                                                Right = new AnyNode()
+                                            }
+                                }
+                        }
+                    };
+
+            return conditionalAndPattern.IsMatch(variableDeclarationStatement) ||
+                   conditionalOrPattern.IsMatch(variableDeclarationStatement);
         }
 
         private static bool IsDefaultCase(SwitchSection switchSection)

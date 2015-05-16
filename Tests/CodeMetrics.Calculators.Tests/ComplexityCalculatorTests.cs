@@ -184,11 +184,26 @@ else
             Assert.That(complexity.Value, Is.EqualTo(1));
         }
 
-        [Test, Ignore("Not supported yet")]
+        [Test]
         public void Calculate_BooleanAssignmentOfAndOperatorUsedInIfStatement_Return3()
         {
             const string method =
                 @"bool b = b1 && b2;
+if(b)
+{
+    int x = 1;
+}";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Calculate_BooleanAssignmentOfOrOperatorUsedInIfStatement_Return3()
+        {
+            const string method =
+                @"bool b = b1 || b2;
 if(b)
 {
     int x = 1;
@@ -228,6 +243,36 @@ if(b)
         }
 
         [Test]
+        public void Calculate_BooleanAssignmentOfOrOperatorUsedInWhileStatement_Return3()
+        {
+            const string method =
+                @"bool b = b1 || b2;
+while(b)
+{
+    int x = 1;
+}";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Calculate_BooleanAssignmentOfAndOperatorUsedInWhileStatement_Return3()
+        {
+            const string method =
+                @"bool b = b1 && b2;
+while(b)
+{
+    int x = 1;
+}";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
         public void Calculate_WhileLoopWithAndOperator_Return3()
         {
             const string method =
@@ -263,6 +308,21 @@ if(b)
 {
     int x = 1;
 } while(b1 && b2);";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Calculate_BooleanAssignmentOfAndOperatorUsedInDoWhileStatement_Return3()
+        {
+            const string method =
+                @"bool b = b1 && b2;
+do
+{
+    int x = 1;
+}while(b)";
 
             var complexity = CalculateMethodComplexity(method);
 
