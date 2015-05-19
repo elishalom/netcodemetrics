@@ -436,7 +436,7 @@ do
             Assert.That(complexity.Value, Is.EqualTo(3));
         }
 
-        [Test, Ignore("Not supported yet")]
+        [Test]
         public void Calculate_Coalescing_Operator_Return3()
         {
             const string method = @"

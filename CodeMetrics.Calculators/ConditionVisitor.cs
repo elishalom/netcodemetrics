@@ -10,7 +10,7 @@ namespace CodeMetrics.Calculators
     {
         public int BranchesCounter { get; private set; }
 
-        private static IDictionary<string, Expression> declerationsDictionary;
+        private IDictionary<string, Expression> declerationsDictionary;
 
         public ConditionVisitor(IDictionary<string, Expression> dictionary = null)
         {
@@ -27,18 +27,13 @@ namespace CodeMetrics.Calculators
             }
         }
 
-
-        public override void VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression)
+        public override void VisitIdentifier(Identifier identifier)
         {
-            base.VisitUnaryOperatorExpression(unaryOperatorExpression);
+            base.VisitIdentifier(identifier);
 
-            if (unaryOperatorExpression.Operator == UnaryOperatorType.Not)
+            if (declerationsDictionary.ContainsKey(identifier.Name))
             {
-                string expressionText = unaryOperatorExpression.Expression.GetText();
-                if (declerationsDictionary.ContainsKey(expressionText))
-                {
-                    declerationsDictionary[expressionText].AcceptVisitor(this);
-                }
+                declerationsDictionary[identifier.Name].AcceptVisitor(this);
             }
         }
     }
