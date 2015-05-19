@@ -20,6 +20,16 @@ namespace CodeMetrics.Calculators
             BranchesCounter++;
         }
 
+        public override void VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression)
+        {
+            base.VisitBinaryOperatorExpression(binaryOperatorExpression);
+
+            if(binaryOperatorExpression.Operator == BinaryOperatorType.NullCoalescing)
+            {
+                BranchesCounter += 2;
+            }
+        }
+
         public override void VisitConditionalExpression(ConditionalExpression conditionalExpression)
         {
             base.VisitConditionalExpression(conditionalExpression);
@@ -40,17 +50,11 @@ namespace CodeMetrics.Calculators
             var conditionComplexity = GetConditionComplexity(ifElseStatement.Condition);
             BranchesCounter += conditionComplexity;
         }
-
+      
         private int GetConditionComplexity(Expression condition)
         {
             var branchesVisitorImpl = new ConditionVisitor(declarationsDictionary);
-            
-            string conditionText = condition.GetText();
-            Expression expressionToEvaluate = declarationsDictionary.ContainsKey(conditionText)
-                                                   ? declarationsDictionary[conditionText]
-                                                   : condition;
-
-            expressionToEvaluate.AcceptVisitor(branchesVisitorImpl);
+            condition.AcceptVisitor(branchesVisitorImpl);
 
             return branchesVisitorImpl.BranchesCounter;
         }
@@ -63,7 +67,7 @@ namespace CodeMetrics.Calculators
             var conditionComplexity = GetConditionComplexity(forStatement.Condition);
             BranchesCounter += conditionComplexity;
         }
-
+      
         public override void VisitForeachStatement(ForeachStatement foreachStatement)
         {
             base.VisitForeachStatement(foreachStatement);
