@@ -10,6 +10,8 @@ namespace CodeMetrics.Calculators
 
     public class BranchesVisitor : DepthFirstAstVisitor, IBranchesVisitor
     {
+        private readonly Dictionary<string, Expression> declarationsDictionary = new Dictionary<string, Expression>();
+
         public int BranchesCounter { get; protected set; }
 
         public override void VisitTryCatchStatement(TryCatchStatement tryCatchStatement)
@@ -41,17 +43,14 @@ namespace CodeMetrics.Calculators
 
         private int GetConditionComplexity(Expression condition)
         {
-            var branchesVisitorImpl = new ConditionVisitor();
+            var branchesVisitorImpl = new ConditionVisitor(declarationsDictionary);
+            
             string conditionText = condition.GetText();
+            Expression expressionToEvaluate = declarationsDictionary.ContainsKey(conditionText)
+                                                   ? declarationsDictionary[conditionText]
+                                                   : condition;
 
-            if (condition is BinaryOperatorExpression)
-            {
-                condition.AcceptVisitor(branchesVisitorImpl);
-            }
-            else if(booleanVariables.Keys.Contains(conditionText))
-            {
-                booleanVariables[conditionText].AcceptVisitor(branchesVisitorImpl);
-            }
+            expressionToEvaluate.AcceptVisitor(branchesVisitorImpl);
 
             return branchesVisitorImpl.BranchesCounter;
         }
@@ -63,7 +62,6 @@ namespace CodeMetrics.Calculators
             BranchesCounter++;
             var conditionComplexity = GetConditionComplexity(forStatement.Condition);
             BranchesCounter += conditionComplexity;
-            
         }
 
         public override void VisitForeachStatement(ForeachStatement foreachStatement)
@@ -103,8 +101,6 @@ namespace CodeMetrics.Calculators
             }
         }
 
-        private readonly Dictionary<string, Expression> booleanVariables = new Dictionary<string, Expression>();
-
         public override void VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement)
         {
             base.VisitVariableDeclarationStatement(variableDeclarationStatement);
@@ -113,7 +109,7 @@ namespace CodeMetrics.Calculators
             {
                 foreach (var variable in variableDeclarationStatement.Variables)
                 {
-                    booleanVariables[variable.Name] = variable.Initializer;
+                    declarationsDictionary[variable.Name] = variable.Initializer;
                 }
             }
         }

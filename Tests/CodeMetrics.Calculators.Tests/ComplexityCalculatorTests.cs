@@ -215,6 +215,21 @@ if(b)
         }
 
         [Test]
+        public void Calculate_BooleanAssignmentOfAndOperatorUsedInIfStatementWithNegationOperator_Return3()
+        {
+            const string method =
+                @"bool b = b1 && b2;
+if(!b)
+{
+    int x = 1;
+}";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
         public void Calculate_ForEachLoop_Return2()
         {
             const string method =
