@@ -3,7 +3,7 @@
   <Identifier Id="CodeMetrices.9dc27cdd-a2d5-4598-95e0-2635827a21c3">
     <Name>Code Metrices</Name>
     <Author>Eli Shalom</Author>
-    <Version>0.6.3</Version>
+    <Version>0.7.0</Version>
     <Description xml:space="preserve">Code complexity addin</Description>
     <Locale>1033</Locale>
     <SupportedProducts>
@@ -22,8 +22,18 @@
         <Edition>Premium</Edition>
         <Edition>Pro</Edition>
       </VisualStudio>
+      <VisualStudio Version="13.0">
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
+        <Edition>Pro</Edition>
+      </VisualStudio>
+      <VisualStudio Version="14.0">
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
+        <Edition>Pro</Edition>
+      </VisualStudio>
     </SupportedProducts>
-    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.5" />
+    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.6" />
   </Identifier>
   <References />
   <Content>
