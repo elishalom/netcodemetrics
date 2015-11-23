@@ -234,13 +234,6 @@
     <Compile Include="Adornments\MeticsAdornmentFactory.cs" />
     <Compile Include="CodeMetricsPackage.cs" />
     <Compile Include="GuidList.cs" />
-    <Compile Include="Options\ColorChangedEventArgs.cs" />
-    <Compile Include="Options\ColorSelection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Options\ColorSelection.Designer.cs">
-      <DependentUpon>ColorSelection.cs</DependentUpon>
-    </Compile>
     <Compile Include="Options\GeneralOptionsPageContent.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -254,6 +247,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ColorChangedEventArgs.cs" />
+    <Compile Include="UserControls\ColorSelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ColorSelection.Designer.cs">
+      <DependentUpon>ColorSelection.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ComplexityView.xaml.cs">
       <DependentUpon>ComplexityView.xaml</DependentUpon>
@@ -319,15 +319,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Options\ColorSelection.resx">
-      <DependentUpon>ColorSelection.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Options\GeneralOptionsPageContent.resx">
       <DependentUpon>GeneralOptionsPageContent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ColorSelection.resx">
+      <DependentUpon>ColorSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

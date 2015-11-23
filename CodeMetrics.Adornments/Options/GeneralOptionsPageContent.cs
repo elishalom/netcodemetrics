@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
+using CodeMetrics.UserControls;
 
 namespace CodeMetrics.Options
 {

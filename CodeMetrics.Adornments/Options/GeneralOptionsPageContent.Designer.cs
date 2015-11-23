@@ -1,4 +1,6 @@
-﻿namespace CodeMetrics.Options
+﻿using CodeMetrics.UserControls;
+
+namespace CodeMetrics.Options
 {
     partial class GeneralOptionsPageContent
     {
@@ -33,9 +35,9 @@
             this.thresholdLabel = new System.Windows.Forms.Label();
             this.mainToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.minimumColorLabel = new System.Windows.Forms.Label();
-            this.minimumColorSelection = new CodeMetrics.Options.ColorSelection();
+            this.minimumColorSelection = new ColorSelection();
             this.maximumColorLabel = new System.Windows.Forms.Label();
-            this.maximumColorSelection = new CodeMetrics.Options.ColorSelection();
+            this.maximumColorSelection = new ColorSelection();
             this.thresholdErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.thresholdErrorProvider)).BeginInit();
             this.SuspendLayout();
@@ -76,7 +78,7 @@
             this.minimumColorSelection.Name = "minimumColorSelection";
             this.minimumColorSelection.Size = new System.Drawing.Size(63, 24);
             this.minimumColorSelection.TabIndex = 3;
-            this.minimumColorSelection.SelectedColorChanged += new System.EventHandler<CodeMetrics.Options.ColorChangedEventArgs>(this.MinimumColorSelection_SelectedColorChanged);
+            this.minimumColorSelection.SelectedColorChanged += new System.EventHandler<ColorChangedEventArgs>(this.MinimumColorSelection_SelectedColorChanged);
             // 
             // maximumColorLabel
             // 
@@ -94,7 +96,7 @@
             this.maximumColorSelection.Name = "maximumColorSelection";
             this.maximumColorSelection.Size = new System.Drawing.Size(63, 24);
             this.maximumColorSelection.TabIndex = 5;
-            this.maximumColorSelection.SelectedColorChanged += new System.EventHandler<CodeMetrics.Options.ColorChangedEventArgs>(this.MaximumColorSelection_SelectedColorChanged);
+            this.maximumColorSelection.SelectedColorChanged += new System.EventHandler<ColorChangedEventArgs>(this.MaximumColorSelection_SelectedColorChanged);
             // 
             // thresholdErrorProvider
             // 
