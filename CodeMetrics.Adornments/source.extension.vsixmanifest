@@ -38,5 +38,6 @@
   <References />
   <Content>
     <MefComponent>|%CurrentProject%|</MefComponent>
+    <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
   </Content>
 </Vsix>
