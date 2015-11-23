@@ -36,6 +36,8 @@
             this.minimumColorSelection = new CodeMetrics.Options.ColorSelection();
             this.maximumColorLabel = new System.Windows.Forms.Label();
             this.maximumColorSelection = new CodeMetrics.Options.ColorSelection();
+            this.thresholdErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // thresholdTextbox
@@ -94,6 +96,10 @@
             this.maximumColorSelection.TabIndex = 5;
             this.maximumColorSelection.SelectedColorChanged += new System.EventHandler<CodeMetrics.Options.ColorChangedEventArgs>(this.MaximumColorSelection_SelectedColorChanged);
             // 
+            // thresholdErrorProvider
+            // 
+            this.thresholdErrorProvider.ContainerControl = this;
+            // 
             // GeneralOptionsPageContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -106,6 +112,7 @@
             this.Controls.Add(this.thresholdTextbox);
             this.Name = "GeneralOptionsPageContent";
             this.Size = new System.Drawing.Size(688, 350);
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdErrorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,5 +127,6 @@
         private ColorSelection minimumColorSelection;
         private System.Windows.Forms.Label maximumColorLabel;
         private ColorSelection maximumColorSelection;
+        private System.Windows.Forms.ErrorProvider thresholdErrorProvider;
     }
 }
