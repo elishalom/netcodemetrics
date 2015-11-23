@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace CodeMetrics.Options
@@ -14,12 +15,24 @@ namespace CodeMetrics.Options
 
         public void Initialize()
         {
-            textBox1.Text = this.OptionsPage.OptionString;
+            this.thresholdTextbox.Text = this.OptionsPage.Threshold.ToString(CultureInfo.InvariantCulture);
+            this.minimumColorPreview.BackColor = this.OptionsPage.MinimumColor;
         }
 
         private void TextBoxTextChanged(object sender, EventArgs e)
         {
-            this.OptionsPage.OptionString = textBox1.Text;
+            int newValue = 1;
+            if (int.TryParse(this.thresholdTextbox.Text, out newValue))
+                this.OptionsPage.Threshold = newValue;
+        }
+
+        private void MinimumColorButtonClick(object sender, EventArgs e)
+        {
+            if (this.rangeColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.minimumColorPreview.BackColor = this.rangeColorDialog.Color;
+                this.OptionsPage.MinimumColor = this.rangeColorDialog.Color;
+            }
         }
     }
 }

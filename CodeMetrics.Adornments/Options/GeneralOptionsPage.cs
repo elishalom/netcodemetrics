@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.Shell;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Settings;
@@ -11,11 +12,20 @@ namespace CodeMetrics.Options
     {
         private const string SettingsCollectionName = "Code Metrics";
 
+        private const string ThresholdName = "Threshold";
+        private const string MinimumColorName = "MinimumColor";
+
+        public static readonly string DefaultMinColor = ColorTranslator.ToHtml(Color.Red);
+
+        private const int DefaultThreshold = 1;
+
         private ShellSettingsManager settingsManager;
 
         private WritableSettingsStore userSettingsStore;
 
-        public string OptionString { get; set; }
+        public int Threshold { get; set; }
+
+        public Color MinimumColor { get; set; }
 
         protected override IWin32Window Window
         {
@@ -36,8 +46,10 @@ namespace CodeMetrics.Options
 
         public override void ResetSettings()
         {
-            userSettingsStore.SetString(SettingsCollectionName, nameof(OptionString), "alpha");
+            userSettingsStore.SetInt32(SettingsCollectionName, ThresholdName, DefaultThreshold);
+            userSettingsStore.SetString(SettingsCollectionName, MinimumColorName, DefaultMinColor);
         }
+
 
         public override void LoadSettingsFromStorage()
         {
@@ -48,12 +60,16 @@ namespace CodeMetrics.Options
                 ResetSettings();
             }
 
-            OptionString = userSettingsStore.GetString(SettingsCollectionName, nameof(OptionString));
+            Threshold = userSettingsStore.GetInt32(SettingsCollectionName, ThresholdName);
+            string minimumColor = this.userSettingsStore.GetString(SettingsCollectionName, MinimumColorName);
+            MinimumColor = ColorTranslator.FromHtml(minimumColor);
         }
 
         public override void SaveSettingsToStorage()
         {
-            userSettingsStore.SetString(SettingsCollectionName, nameof(OptionString), OptionString);
+            userSettingsStore.SetInt32(SettingsCollectionName, ThresholdName, Threshold);
+            var newMinColor = ColorTranslator.ToHtml(MinimumColor);
+            userSettingsStore.SetString(SettingsCollectionName, MinimumColorName, newMinColor);
         }
     }
 }
