@@ -24,7 +24,14 @@ namespace CodeMetrics.Options
         {
             int newValue = 1;
             if (int.TryParse(this.thresholdTextbox.Text, out newValue))
+            {
                 this.OptionsPage.Threshold = newValue;
+                this.thresholdErrorProvider.SetError(this.thresholdTextbox, string.Empty);
+            }
+            else
+            {
+                this.thresholdErrorProvider.SetError(this.thresholdTextbox, Properties.Resources.ThresholdErrorMessage);
+            }
         }
 
         private void MinimumColorSelection_SelectedColorChanged(object sender, ColorChangedEventArgs e)
