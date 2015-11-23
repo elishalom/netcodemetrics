@@ -33,9 +33,9 @@
             this.thresholdLabel = new System.Windows.Forms.Label();
             this.mainToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.minimumColorLabel = new System.Windows.Forms.Label();
-            this.rangeColorDialog = new System.Windows.Forms.ColorDialog();
-            this.minimumColorPreview = new System.Windows.Forms.Panel();
-            this.minimumColorButton = new System.Windows.Forms.Button();
+            this.minimumColorSelection = new CodeMetrics.Options.ColorSelection();
+            this.maximumColorLabel = new System.Windows.Forms.Label();
+            this.maximumColorSelection = new CodeMetrics.Options.ColorSelection();
             this.SuspendLayout();
             // 
             // thresholdTextbox
@@ -56,39 +56,51 @@
             this.thresholdLabel.Size = new System.Drawing.Size(104, 13);
             this.thresholdLabel.TabIndex = 1;
             this.thresholdLabel.Text = "Minimum Complexity:";
+            this.thresholdLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // minimumColorLabel
             // 
             this.minimumColorLabel.AutoSize = true;
-            this.minimumColorLabel.Location = new System.Drawing.Point(18, 62);
+            this.minimumColorLabel.Location = new System.Drawing.Point(18, 64);
             this.minimumColorLabel.Name = "minimumColorLabel";
             this.minimumColorLabel.Size = new System.Drawing.Size(130, 13);
             this.minimumColorLabel.TabIndex = 2;
             this.minimumColorLabel.Text = "Minimum complexity Color:";
+            this.minimumColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // minimumColorPreview
+            // minimumColorSelection
             // 
-            this.minimumColorPreview.Location = new System.Drawing.Point(164, 57);
-            this.minimumColorPreview.Name = "minimumColorPreview";
-            this.minimumColorPreview.Size = new System.Drawing.Size(30, 23);
-            this.minimumColorPreview.TabIndex = 3;
+            this.minimumColorSelection.Location = new System.Drawing.Point(164, 58);
+            this.minimumColorSelection.Name = "minimumColorSelection";
+            this.minimumColorSelection.Size = new System.Drawing.Size(63, 24);
+            this.minimumColorSelection.TabIndex = 3;
+            this.minimumColorSelection.SelectedColorChanged += new System.EventHandler<CodeMetrics.Options.ColorChangedEventArgs>(this.MinimumColorSelection_SelectedColorChanged);
             // 
-            // minimumColorButton
+            // maximumColorLabel
             // 
-            this.minimumColorButton.Location = new System.Drawing.Point(200, 57);
-            this.minimumColorButton.Name = "minimumColorButton";
-            this.minimumColorButton.Size = new System.Drawing.Size(64, 23);
-            this.minimumColorButton.TabIndex = 0;
-            this.minimumColorButton.Text = "Edit";
-            this.minimumColorButton.UseVisualStyleBackColor = true;
-            this.minimumColorButton.Click += new System.EventHandler(this.MinimumColorButtonClick);
+            this.maximumColorLabel.AutoSize = true;
+            this.maximumColorLabel.Location = new System.Drawing.Point(15, 93);
+            this.maximumColorLabel.Name = "maximumColorLabel";
+            this.maximumColorLabel.Size = new System.Drawing.Size(133, 13);
+            this.maximumColorLabel.TabIndex = 4;
+            this.maximumColorLabel.Text = "Maximum complexity Color:";
+            this.maximumColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // maximumColorSelection
+            // 
+            this.maximumColorSelection.Location = new System.Drawing.Point(164, 88);
+            this.maximumColorSelection.Name = "maximumColorSelection";
+            this.maximumColorSelection.Size = new System.Drawing.Size(63, 24);
+            this.maximumColorSelection.TabIndex = 5;
+            this.maximumColorSelection.SelectedColorChanged += new System.EventHandler<CodeMetrics.Options.ColorChangedEventArgs>(this.MaximumColorSelection_SelectedColorChanged);
             // 
             // GeneralOptionsPageContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.minimumColorButton);
-            this.Controls.Add(this.minimumColorPreview);
+            this.Controls.Add(this.maximumColorSelection);
+            this.Controls.Add(this.maximumColorLabel);
+            this.Controls.Add(this.minimumColorSelection);
             this.Controls.Add(this.minimumColorLabel);
             this.Controls.Add(this.thresholdLabel);
             this.Controls.Add(this.thresholdTextbox);
@@ -105,8 +117,8 @@
         private System.Windows.Forms.ToolTip mainToolTip;
         private System.Windows.Forms.Label thresholdLabel;
         private System.Windows.Forms.Label minimumColorLabel;
-        private System.Windows.Forms.ColorDialog rangeColorDialog;
-        private System.Windows.Forms.Panel minimumColorPreview;
-        private System.Windows.Forms.Button minimumColorButton;
+        private ColorSelection minimumColorSelection;
+        private System.Windows.Forms.Label maximumColorLabel;
+        private ColorSelection maximumColorSelection;
     }
 }

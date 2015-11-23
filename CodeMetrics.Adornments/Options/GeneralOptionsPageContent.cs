@@ -16,7 +16,8 @@ namespace CodeMetrics.Options
         public void Initialize()
         {
             this.thresholdTextbox.Text = this.OptionsPage.Threshold.ToString(CultureInfo.InvariantCulture);
-            this.minimumColorPreview.BackColor = this.OptionsPage.MinimumColor;
+            this.minimumColorSelection.SelectedColor = this.OptionsPage.MinimumColor;
+            this.maximumColorSelection.SelectedColor = this.OptionsPage.MaximumColor;
         }
 
         private void TextBoxTextChanged(object sender, EventArgs e)
@@ -26,13 +27,14 @@ namespace CodeMetrics.Options
                 this.OptionsPage.Threshold = newValue;
         }
 
-        private void MinimumColorButtonClick(object sender, EventArgs e)
+        private void MinimumColorSelection_SelectedColorChanged(object sender, ColorChangedEventArgs e)
         {
-            if (this.rangeColorDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.minimumColorPreview.BackColor = this.rangeColorDialog.Color;
-                this.OptionsPage.MinimumColor = this.rangeColorDialog.Color;
-            }
+            this.OptionsPage.MinimumColor = e.NewColor;
+        }
+
+        private void MaximumColorSelection_SelectedColorChanged(object sender, ColorChangedEventArgs e)
+        {
+            this.OptionsPage.MaximumColor = e.NewColor;
         }
     }
 }
