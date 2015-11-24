@@ -12,18 +12,18 @@ namespace CodeMetrics.Adornments.Tests
         public void ComplexityZeroConvertsToDefaultAllowedColor()
         {
             const int complexity = 0;
-            SolidColorBrush brush = ConvertToBrush(complexity);
+            Color color = ConvertToBrush(complexity);
 
-            Assert.That(brush.Color, Is.EqualTo(Colors.Green), "Complexity 0 has to equal to default Allowed color");
+            Assert.That(color, Is.EqualTo(Colors.Green), "Complexity 0 has to equal to default Allowed color");
         }
 
         [Test]
         public void ComplexityTenConvertsToDefaultAllowedColor()
         {
             const int complexity = 10;
-            SolidColorBrush brush = ConvertToBrush(complexity);
+            Color color = ConvertToBrush(complexity);
 
-            Assert.That(brush.Color, Is.EqualTo(Colors.Red), "Complexity 10 has to equal to default Error color");
+            Assert.That(color, Is.EqualTo(Colors.Red), "Complexity 10 has to equal to default Error color");
         }
 
         [ExpectedException(typeof(NotImplementedException))]
@@ -35,12 +35,12 @@ namespace CodeMetrics.Adornments.Tests
         }
 
 
-        private static SolidColorBrush ConvertToBrush(int complexity)
+        private static Color ConvertToBrush(int complexity)
         {
             var converter = new ComplexityToColor();
-            var brush = (SolidColorBrush)converter.Convert(complexity, typeof(SolidColorBrush),
+            var color = (Color)converter.Convert(complexity, typeof(Color),
                 null, CultureInfo.InvariantCulture);
-            return brush;
+            return color;
         }
     }
 }

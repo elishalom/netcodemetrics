@@ -1,4 +1,5 @@
-﻿using CodeMetrics.Calculators;
+﻿using System.Windows.Media;
+using CodeMetrics.Calculators;
 using CodeMetrics.UserControls;
 using Moq;
 using NUnit.Framework;
@@ -35,20 +36,27 @@ namespace CodeMetrics.Adornments.Tests
             Assert.That(model.Value, Is.EqualTo(Expected), "View model wraps last assigned complexity.");
         }
 
-        private static ComplexityViewModel AssignComplexity()
+        [Test]
+        public void AfterUpdateComplexity0_GetColor_ReturnsGreen()
         {
-            var mockComplexity = CreateComplexityMock();
+            ComplexityViewModel model = AssignComplexity(0);
+            Assert.That(model.Color, Is.EqualTo(Colors.Green), "Zero complexity is converted to allowed color..");
+        }
+
+        private static ComplexityViewModel AssignComplexity(int expected = Expected)
+        {
+            var mockComplexity = CreateComplexityMock(expected);
 
             var model = new ComplexityViewModel();
             model.UpdateComplexity(mockComplexity.Object);
             return model;
         }
 
-        private static Mock<IComplexity> CreateComplexityMock()
+        private static Mock<IComplexity> CreateComplexityMock(int expected = Expected)
         {
             var mockComplexity = new Mock<IComplexity>();
             mockComplexity.SetupGet(c => c.Value)
-                .Returns(() => Expected);
+                .Returns(() => expected);
             return mockComplexity;
         }
     }
