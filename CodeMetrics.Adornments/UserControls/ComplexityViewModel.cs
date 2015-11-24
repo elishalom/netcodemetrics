@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using CodeMetrics.Calculators;
 
 namespace CodeMetrics.UserControls
 {
-    class ComplexityViewModel : INotifyPropertyChanged
+    internal class ComplexityViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
