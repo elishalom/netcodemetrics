@@ -18,8 +18,8 @@ namespace CodeMetrics.Adornments
         public Color Convert(int complexity)
         {
             var ratio = (Math.Min(complexity, MaximumComplexityThreshold))/ (double)MaximumComplexityThreshold;
-            Color maximumColor = ToMediaColor(this.options.MaximumColor);
-            Color minimumColor = ToMediaColor(this.options.MinimumColor);
+            Color maximumColor = ToMediaColor(this.options.BadColor);
+            Color minimumColor = ToMediaColor(this.options.GoodColor);
             return CombineColor(maximumColor, ratio, minimumColor);
         }
 

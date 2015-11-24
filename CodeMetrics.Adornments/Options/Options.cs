@@ -9,24 +9,24 @@ namespace CodeMetrics.Options
     {
         private const string SettingsCollectionName = "Code Metrics";
 
-        private const string ThresholdName = "Threshold";
-        private const string MinimumColorName = "MinimumColor";
-        private const string MaximumColorName = "MaximumColor";
+        private const string MinimumToShowName = "MinimumToShow";
+        private const string GoodColorName = "GoodColor";
+        private const string BadColorName = "BadColor";
 
-        public static readonly string DefaultMinColor = ColorTranslator.ToHtml(Color.DarkGreen);
-        public static readonly string DefaultMaxColor = ColorTranslator.ToHtml(Color.Red);
+        public static readonly string DefaultGoodColor = ColorTranslator.ToHtml(Color.DarkGreen);
+        public static readonly string DefaultBadColor = ColorTranslator.ToHtml(Color.Red);
 
-        private const int DefaultThreshold = 1;
+        private const int DefaultToShow = 1;
 
         private ShellSettingsManager settingsManager;
 
         private WritableSettingsStore userSettingsStore;
 
-        public int Threshold { get; set; }
+        public int MinimumToShow { get; set; }
 
-        public Color MinimumColor { get; set; }
+        public Color GoodColor { get; set; }
 
-        public Color MaximumColor { get; set; }
+        public Color BadColor { get; set; }
 
         public Options()
         {
@@ -36,9 +36,9 @@ namespace CodeMetrics.Options
 
         internal void ResetSettings()
         {
-            userSettingsStore.SetInt32(SettingsCollectionName, ThresholdName, DefaultThreshold);
-            userSettingsStore.SetString(SettingsCollectionName, MinimumColorName, DefaultMinColor);
-            userSettingsStore.SetString(SettingsCollectionName, MaximumColorName, DefaultMaxColor);
+            userSettingsStore.SetInt32(SettingsCollectionName, MinimumToShowName, DefaultToShow);
+            userSettingsStore.SetString(SettingsCollectionName, GoodColorName, DefaultGoodColor);
+            userSettingsStore.SetString(SettingsCollectionName, BadColorName, DefaultBadColor);
         }
 
         internal void LoadSettingsFromStorage()
@@ -50,9 +50,9 @@ namespace CodeMetrics.Options
                 ResetSettings();
             }
 
-            Threshold = userSettingsStore.GetInt32(SettingsCollectionName, ThresholdName);
-            MinimumColor = this.ResolveSettingsColor(MinimumColorName);
-            MaximumColor = this.ResolveSettingsColor(MaximumColorName);
+            this.MinimumToShow = userSettingsStore.GetInt32(SettingsCollectionName, MinimumToShowName);
+            this.GoodColor = this.ResolveSettingsColor(GoodColorName);
+            this.BadColor = this.ResolveSettingsColor(BadColorName);
         }
 
         private Color ResolveSettingsColor(string minimumColorName)
@@ -63,9 +63,9 @@ namespace CodeMetrics.Options
 
         internal void SaveSettingsToStorage()
         {
-            userSettingsStore.SetInt32(SettingsCollectionName, ThresholdName, Threshold);
-            this.SaveColor(this.MinimumColor, MinimumColorName);
-            this.SaveColor(this.MaximumColor, MaximumColorName);
+            userSettingsStore.SetInt32(SettingsCollectionName, MinimumToShowName, this.MinimumToShow);
+            this.SaveColor(this.GoodColor, GoodColorName);
+            this.SaveColor(this.BadColor, BadColorName);
         }
 
         private void SaveColor(Color newColor, string settingKey)

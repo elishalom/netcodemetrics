@@ -4,10 +4,10 @@ namespace CodeMetrics.Options
 {
     public interface IOptions
     {
-        int Threshold { get; set; }
+        int MinimumToShow { get; set; }
 
-        Color MinimumColor { get; set; }
+        Color GoodColor { get; set; }
 
-        Color MaximumColor { get; set; }
+        Color BadColor { get; set; }
     }
 }

@@ -37,9 +37,9 @@ namespace CodeMetrics.Adornments.Tests
         internal static Mock<IOptions> CreateOptionsMock()
         {
             var optionsMock = new Mock<IOptions>();
-            optionsMock.SetupGet(o => o.Threshold).Returns(0);
-            optionsMock.SetupGet(o => o.MinimumColor).Returns(System.Drawing.Color.Green);
-            optionsMock.SetupGet(o => o.MaximumColor).Returns(System.Drawing.Color.Red);
+            optionsMock.SetupGet(o => o.MinimumToShow).Returns(0);
+            optionsMock.SetupGet(o => o.GoodColor).Returns(System.Drawing.Color.Green);
+            optionsMock.SetupGet(o => o.BadColor).Returns(System.Drawing.Color.Red);
             return optionsMock;
         }
     }
