@@ -7,8 +7,9 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <adornments:ColorToBrushConverter x:Key="ToBrush"/>
+        <BooleanToVisibilityConverter x:Key="ToVisiblity"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid  Visibility="{Binding Visible, Converter={StaticResource ToVisiblity}}">
         <Ellipse Height="20" Width="20" Fill="{Binding Color, Converter={StaticResource ToBrush}}" />
         <TextBlock Text="{Binding Value}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
     </Grid>
