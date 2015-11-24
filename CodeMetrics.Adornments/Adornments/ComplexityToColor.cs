@@ -20,10 +20,7 @@ namespace CodeMetrics.Adornments
             var goodColor = Brushes.Green.Color;
             var badColor = Brushes.Red.Color;
 
-            Color combinedColor = CombineColor(badColor, ratio, goodColor);
-
-            return new SolidColorBrush(combinedColor);
-
+            return CombineColor(badColor, ratio, goodColor);
         }
 
         private static Color CombineColor(Color color2, double ratio, Color color1)
