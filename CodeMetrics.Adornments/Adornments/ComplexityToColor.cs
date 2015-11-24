@@ -5,9 +5,11 @@ namespace CodeMetrics.Adornments
 {
     public class ComplexityToColor
     {
+        private const int MaximumComplexityThreshold = 10;
+
         public Color Convert(int complexity)
         {
-            var ratio = (Math.Min(complexity, 10))/10D;
+            var ratio = (Math.Min(complexity, MaximumComplexityThreshold))/ (double)MaximumComplexityThreshold;
             var goodColor = Brushes.Green.Color;
             var badColor = Brushes.Red.Color;
             return CombineColor(badColor, ratio, goodColor);
