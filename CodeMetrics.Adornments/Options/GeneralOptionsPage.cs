@@ -14,35 +14,35 @@ namespace CodeMetrics.Options
         {
             get
             {
-                return this.options.Threshold;
+                return this.options.MinimumToShow;
             }
             set
             {
-                this.options.Threshold = value;
+                this.options.MinimumToShow = value;
             }
         }
 
-        public Color MinimumColor
+        public Color GoodColor
         {
             get
             {
-                return this.options.MinimumColor;
+                return this.options.GoodColor;
             }
             set
             {
-                this.options.MinimumColor = value;
+                this.options.GoodColor = value;
             }
         }
 
-        public Color MaximumColor
+        public Color BadColor
         {
             get
             {
-                return this.options.MaximumColor;
+                return this.options.BadColor;
             }
             set
             {
-                this.options.MaximumColor = value;
+                this.options.BadColor = value;
             }
         }
 
