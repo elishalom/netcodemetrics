@@ -20,7 +20,7 @@ namespace CodeMetrics.UserControls
         {
             get
             {
-                return (Color)converter.Convert(this.Value, typeof(Color), null, CultureInfo.InvariantCulture);
+                return this.converter.Convert(this.Value);
             }
         }
         
