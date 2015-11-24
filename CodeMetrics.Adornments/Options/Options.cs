@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Shell.Settings;
 
 namespace CodeMetrics.Options
 {
-    internal class Options
+    internal class Options : IOptions
     {
         private const string SettingsCollectionName = "Code Metrics";
 

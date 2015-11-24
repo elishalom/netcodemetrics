@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Media;
 using CodeMetrics.Adornments;
 using CodeMetrics.Calculators;
+using CodeMetrics.Options;
 
 namespace CodeMetrics.UserControls
 {
@@ -12,7 +13,7 @@ namespace CodeMetrics.UserControls
 
         private IComplexity complexity;
 
-        private readonly ComplexityToColor converter = new ComplexityToColor();
+        private readonly ComplexityToColor converter;
 
         public int Value { get { return this.complexity == null ? 0 : this.complexity.Value; } }
 
@@ -22,6 +23,11 @@ namespace CodeMetrics.UserControls
             {
                 return this.converter.Convert(this.Value);
             }
+        }
+
+        public ComplexityViewModel(IOptions options)
+        {
+            this.converter = new ComplexityToColor(options);
         }
         
         public void InvokePropertyChanged(PropertyChangedEventArgs e)

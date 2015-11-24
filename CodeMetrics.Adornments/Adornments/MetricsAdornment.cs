@@ -103,7 +103,7 @@ namespace CodeMetrics.Adornments
                 }
 
                 string methodText = methodToText[pair.Key];
-                var complexityViewModel = new ComplexityViewModel();
+                var complexityViewModel = new ComplexityViewModel(new Options.Options());
                 var complexityView = new ComplexityView
                                          {
                                              DataContext = complexityViewModel

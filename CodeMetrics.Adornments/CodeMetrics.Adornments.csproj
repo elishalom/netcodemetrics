@@ -244,6 +244,7 @@
     <Compile Include="Options\GeneralOptionsPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Options\IOptions.cs" />
     <Compile Include="Options\Options.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
