@@ -63,6 +63,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ColorConverterTest.cs" />
+    <Compile Include="ColorToBrushConverterTests.cs" />
     <Compile Include="ComplexityViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
