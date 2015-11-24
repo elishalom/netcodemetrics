@@ -1,6 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Media;
+﻿using System.Windows.Media;
+using CodeMetrics.Options;
+using Moq;
 using NUnit.Framework;
 
 namespace CodeMetrics.Adornments.Tests
@@ -28,8 +28,19 @@ namespace CodeMetrics.Adornments.Tests
 
         private static Color ConvertToBrush(int complexity)
         {
-            var converter = new ComplexityToColor();
+            Mock<IOptions> optionsMock = CreateOptionsMock();
+
+            var converter = new ComplexityToColor(optionsMock.Object);
             return converter.Convert(complexity);
+        }
+
+        internal static Mock<IOptions> CreateOptionsMock()
+        {
+            var optionsMock = new Mock<IOptions>();
+            optionsMock.SetupGet(o => o.Threshold).Returns(0);
+            optionsMock.SetupGet(o => o.MinimumColor).Returns(System.Drawing.Color.Green);
+            optionsMock.SetupGet(o => o.MaximumColor).Returns(System.Drawing.Color.Red);
+            return optionsMock;
         }
     }
 }

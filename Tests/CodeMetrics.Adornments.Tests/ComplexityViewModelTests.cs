@@ -15,7 +15,7 @@ namespace CodeMetrics.Adornments.Tests
         public void NewComplexity_UpdateComplexity_FiresNotifyPropertyChanged()
         {
             bool eventFired = false;
-            var model = new ComplexityViewModel();
+            var model = CreateViewModel();
             model.PropertyChanged += (sender, args) => eventFired = true;
             var complexityMock = CreateComplexityMock();
             model.UpdateComplexity(complexityMock.Object);
@@ -25,7 +25,7 @@ namespace CodeMetrics.Adornments.Tests
         [Test]
         public void NoComplexitySet_GetValue_Returns0()
         {
-            ComplexityViewModel model = new ComplexityViewModel();
+            ComplexityViewModel model = CreateViewModel();
             Assert.That(model.Value, Is.EqualTo(0), "Default complexity value should be zero.");
         }
 
@@ -47,8 +47,15 @@ namespace CodeMetrics.Adornments.Tests
         {
             var mockComplexity = CreateComplexityMock(expected);
 
-            var model = new ComplexityViewModel();
+            var model = CreateViewModel();
             model.UpdateComplexity(mockComplexity.Object);
+            return model;
+        }
+
+        private static ComplexityViewModel CreateViewModel()
+        {
+            var optionsMock = ColorConverterTest.CreateOptionsMock();
+            var model = new ComplexityViewModel(optionsMock.Object);
             return model;
         }
 
