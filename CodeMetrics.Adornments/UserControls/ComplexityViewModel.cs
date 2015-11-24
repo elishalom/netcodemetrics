@@ -7,24 +7,22 @@ namespace CodeMetrics.UserControls
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private IComplexity complexity;
+
+        public int Value { get { return this.complexity == null ? 0 : this.complexity.Value; } }
+
         public void InvokePropertyChanged(PropertyChangedEventArgs e)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
+            if (PropertyChanged != null)
             {
-                handler(this, e);
+                PropertyChanged(this, e);
             }
         }
-
-        private IComplexity complexity;
 
         public void UpdateComplexity(IComplexity complexity)
         {
             this.complexity = complexity;
             InvokePropertyChanged(new PropertyChangedEventArgs(null));
         }
-
-        public int Value { get { return complexity == null ? 0 : complexity.Value; } }
-        
     }
 }
