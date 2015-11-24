@@ -229,6 +229,7 @@
     <Compile Include="..\Version\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Adornments\ColorToBrushConverter.cs" />
     <Compile Include="Adornments\ComplexityToColor.cs" />
     <Compile Include="Adornments\IMetricsAdornment.cs" />
     <Compile Include="Adornments\MeticsAdornmentFactory.cs" />
