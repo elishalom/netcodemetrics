@@ -9,6 +9,8 @@ namespace CodeMetrics.UserControls
 {
     internal class ComplexityViewModel : INotifyPropertyChanged
     {
+        private readonly IOptions options;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private IComplexity complexity;
@@ -25,11 +27,20 @@ namespace CodeMetrics.UserControls
             }
         }
 
+        public bool Visible
+        {
+            get
+            {
+                return this.options.MinimumToShow <= Value;
+            }
+        }
+
         public ComplexityViewModel(IOptions options)
         {
+            this.options = options;
             this.converter = new ComplexityToColor(options);
         }
-        
+
         public void InvokePropertyChanged(PropertyChangedEventArgs e)
         {
             if (PropertyChanged != null)

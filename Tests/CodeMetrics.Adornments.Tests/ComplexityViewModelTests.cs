@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using CodeMetrics.Calculators;
+using CodeMetrics.Options;
 using CodeMetrics.UserControls;
 using Moq;
 using NUnit.Framework;
@@ -43,20 +44,52 @@ namespace CodeMetrics.Adornments.Tests
             Assert.That(model.Color, Is.EqualTo(Colors.Green), "Zero complexity is converted to allowed color..");
         }
 
+        [Test]
+        public void MiminumToShow3Complexity5_GetVisible_ReturnsTrue()
+        {
+            ComplexityViewModel model = CreateViewModelByOptions(3);
+            Assert.That(model.Visible, Is.True);
+        }
+
+        [Test]
+        public void MiminumToShow5Complexity5_GetVisible_ReturnsTrue()
+        {
+            ComplexityViewModel model = CreateViewModelByOptions(5);
+            Assert.That(model.Visible, Is.True);
+        }
+
+        [Test]
+        public void MiminumToShow7Complexity5_GetVisible_ReturnsFalse()
+        {
+            ComplexityViewModel model = CreateViewModelByOptions(7);
+            Assert.That(model.Visible, Is.False);
+        }
+
+        private static ComplexityViewModel CreateViewModelByOptions(int minimumToShow)
+        {
+            Mock<IOptions> optionsMock = new Mock<IOptions>();
+            optionsMock.SetupGet(o => o.MinimumToShow).Returns(minimumToShow);
+            return AssigComplexity(optionsMock);
+        }
+
         private static ComplexityViewModel AssignComplexity(int expected = Expected)
         {
-            var mockComplexity = CreateComplexityMock(expected);
+            Mock<IOptions> optionsMock = ColorConverterTest.CreateOptionsMock();
+            return AssigComplexity(optionsMock, expected);
+        }
 
-            var model = CreateViewModel();
+        private static ComplexityViewModel AssigComplexity(Mock<IOptions> optionsMock, int expected = Expected)
+        {
+            Mock<IComplexity> mockComplexity = CreateComplexityMock(expected);
+            var model = new ComplexityViewModel(optionsMock.Object);
             model.UpdateComplexity(mockComplexity.Object);
             return model;
         }
 
         private static ComplexityViewModel CreateViewModel()
         {
-            var optionsMock = ColorConverterTest.CreateOptionsMock();
-            var model = new ComplexityViewModel(optionsMock.Object);
-            return model;
+            Mock<IOptions> optionsMock = ColorConverterTest.CreateOptionsMock();
+            return new ComplexityViewModel(optionsMock.Object);
         }
 
         private static Mock<IComplexity> CreateComplexityMock(int expected = Expected)

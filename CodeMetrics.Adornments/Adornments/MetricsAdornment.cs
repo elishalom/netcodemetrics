@@ -20,6 +20,8 @@ namespace CodeMetrics.Adornments
 
         private Dictionary<IMethod, string> methodToText;
 
+        private readonly Options.Options options = new Options.Options();
+
         public MetricsAdornment(IWpfTextView view, IMethodsExtractor methodsExtractor, IComplexityCalculator complexityCalculator)
         {
             this.view = view;
@@ -92,6 +94,7 @@ namespace CodeMetrics.Adornments
         private void RepaintComplexity(ITextSnapshot textSnapshot)
         {
             layer.RemoveAllAdornments();
+            options.LoadSettingsFromStorage();
 
             foreach (var pair in methodToText)
             {
@@ -103,8 +106,7 @@ namespace CodeMetrics.Adornments
                 }
 
                 string methodText = methodToText[pair.Key];
-                var options = new Options.Options();
-                options.LoadSettingsFromStorage();
+                
                 var complexityViewModel = new ComplexityViewModel(options);
                 var complexityView = new ComplexityView
                                          {
