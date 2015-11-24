@@ -26,21 +26,10 @@ namespace CodeMetrics.Adornments.Tests
             Assert.That(color, Is.EqualTo(Colors.Red), "Complexity 10 has to equal to default Error color");
         }
 
-        [ExpectedException(typeof(NotImplementedException))]
-        [Test]
-        public void BrushIsNotConvertibleBackToComplexity()
-        {
-            var converter = new ComplexityToColor();
-            converter.ConvertBack(new SolidColorBrush(), typeof(int), null, CultureInfo.InvariantCulture);
-        }
-
-
         private static Color ConvertToBrush(int complexity)
         {
             var converter = new ComplexityToColor();
-            var color = (Color)converter.Convert(complexity, typeof(Color),
-                null, CultureInfo.InvariantCulture);
-            return color;
+            return converter.Convert(complexity);
         }
     }
 }
