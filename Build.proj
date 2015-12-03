@@ -5,7 +5,7 @@
   </PropertyGroup>
   <UsingTask AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" TaskName="NUnit"/>
 
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets"/>
 
   <!-- Version Number -->
   <PropertyGroup Condition=" '$(BUILD_NUMBER)' == '' ">

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D37907FE-7116-4160-B753-A1E49421FB55}"
 EndProject
@@ -18,13 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4CE706
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{8AD38CD5-5237-42F6-818C-6DD85FA79C5E}"
-	ProjectSection(SolutionItems) = preProject
-		Build.proj = Build.proj
-		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
-		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeMetrics.Calculators", "CodeMetrics.Calculators\CodeMetrics.Calculators.csproj", "{CF35E234-7831-4A2B-8F18-BBB0F8621B10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeMetrics.Calculators.Tests", "Tests\CodeMetrics.Calculators.Tests\CodeMetrics.Calculators.Tests.csproj", "{410CD13E-9ED3-48BD-B0CD-875AF5CC778A}"
@@ -38,6 +31,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeMetrics.Common", "CodeMetrics.Common\CodeMetrics.Common.csproj", "{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeMetrics.Adornments.Tests", "Tests\CodeMetrics.Adornments.Tests\CodeMetrics.Adornments.Tests.csproj", "{1DC8AAB3-3056-4D90-9DAE-1BAA7E0BE68F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{D7FD4063-A4A1-4179-83C3-912A672A9A7F}"
+	ProjectSection(SolutionItems) = preProject
+		Build.proj = Build.proj
+		packages\MSBuildTasks.1.4.0.128\tools\MSBuild.Community.Tasks.dll = packages\MSBuildTasks.1.4.0.128\tools\MSBuild.Community.Tasks.dll
+		packages\MSBuildTasks.1.4.0.128\tools\MSBuild.Community.Tasks.Targets = packages\MSBuildTasks.1.4.0.128\tools\MSBuild.Community.Tasks.Targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
