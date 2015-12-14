@@ -20,7 +20,7 @@ namespace CodeMetrics.Options
 
         private ShellSettingsManager settingsManager;
 
-        private WritableSettingsStore userSettingsStore;
+        private readonly WritableSettingsStore userSettingsStore;
 
         public int MinimumToShow { get; set; }
 
@@ -50,14 +50,14 @@ namespace CodeMetrics.Options
                 ResetSettings();
             }
 
-            this.MinimumToShow = userSettingsStore.GetInt32(SettingsCollectionName, MinimumToShowName);
-            this.GoodColor = this.ResolveSettingsColor(GoodColorName);
-            this.BadColor = this.ResolveSettingsColor(BadColorName);
+            this.MinimumToShow = userSettingsStore.GetInt32(SettingsCollectionName, MinimumToShowName, DefaultToShow);
+            this.GoodColor = this.ResolveSettingsColor(GoodColorName, DefaultGoodColor);
+            this.BadColor = this.ResolveSettingsColor(BadColorName, DefaultBadColor);
         }
 
-        private Color ResolveSettingsColor(string minimumColorName)
+        private Color ResolveSettingsColor(string minimumColorName, string defaultColor)
         {
-            string minimumColor = this.userSettingsStore.GetString(SettingsCollectionName, minimumColorName);
+            string minimumColor = this.userSettingsStore.GetString(SettingsCollectionName, minimumColorName, defaultColor);
             return ColorTranslator.FromHtml(minimumColor);
         }
 
