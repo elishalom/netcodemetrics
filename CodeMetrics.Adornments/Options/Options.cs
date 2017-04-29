@@ -57,7 +57,7 @@ namespace CodeMetrics.Options
 
         private Color ResolveSettingsColor(string minimumColorName, string defaultColor)
         {
-            string minimumColor = this.userSettingsStore.GetString(SettingsCollectionName, minimumColorName, defaultColor);
+            var minimumColor = this.userSettingsStore.GetString(SettingsCollectionName, minimumColorName, defaultColor);
             return ColorTranslator.FromHtml(minimumColor);
         }
 

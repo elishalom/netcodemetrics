@@ -9,7 +9,7 @@ namespace CodeMetrics.Calculators.Tests
         [Test]
         public void ComplexityToString_ReturnsValue()
         {
-            var complexity = new Complexity(5);
+            var complexity = new CyclomaticComplexity(5);
             string complexityText = complexity.ToString();
             Assert.AreEqual("Complexity:5", complexityText, "Complexity ToString should return formated value.");
         }

@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
-using System.Globalization;
 using System.Windows.Media;
 using CodeMetrics.Adornments;
-using CodeMetrics.Calculators;
+using CodeMetrics.Calculators.Contracts;
 using CodeMetrics.Options;
 
 namespace CodeMetrics.UserControls
@@ -13,27 +12,15 @@ namespace CodeMetrics.UserControls
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private IComplexity complexity;
+        private ICyclomaticComplexity complexity;
 
         private readonly ComplexityToColor converter;
 
-        public int Value { get { return this.complexity == null ? 0 : this.complexity.Value; } }
+        public int Value => complexity?.Value ?? 0;
 
-        public Color Color
-        {
-            get
-            {
-                return this.converter.Convert(this.Value);
-            }
-        }
+        public Color Color => this.converter.Convert(this.Value);
 
-        public bool Visible
-        {
-            get
-            {
-                return this.options.MinimumToShow <= Value;
-            }
-        }
+        public bool Visible => this.options.MinimumToShow <= Value;
 
         public ComplexityViewModel(IOptions options)
         {
@@ -43,13 +30,10 @@ namespace CodeMetrics.UserControls
 
         public void InvokePropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
-        public void UpdateComplexity(IComplexity complexity)
+        public void UpdateComplexity(ICyclomaticComplexity complexity)
         {
             this.complexity = complexity;
             InvokePropertyChanged(new PropertyChangedEventArgs(null));

@@ -2,11 +2,11 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeMetrics.Options
+namespace CodeMetrics.UserControls
 {
     internal partial class ColorSelection : UserControl
     {
-        public event EventHandler<ColorChangedEventArgs> SelectedColorChanged; 
+        public event EventHandler<ColorChangedEventArgs> SelectedColorChanged;
 
         internal Color SelectedColor
         {

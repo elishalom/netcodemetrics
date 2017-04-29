@@ -1,8 +1,7 @@
 using System.ComponentModel.Composition;
-using Castle.Windsor;
-using CodeMetrics.Calculators;
+using CodeMetrics.Calculators.Contracts;
 using CodeMetrics.Common;
-using CodeMetrics.Parsing;
+using CodeMetrics.Parsing.Contracts;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
@@ -23,11 +22,12 @@ namespace CodeMetrics.Adornments
 
         public void TextViewCreated(IWpfTextView textView)
         {
-            WindsorContainer container = ContainerFactory.CreateContainer();
+            var exceptionHandler = new ExceptionHandler();
+            var container = ContainerFactory.CreateContainer(exceptionHandler);
 
             var methodsExtractor = container.Resolve<IMethodsExtractor>();
-            var complexityCalculator = container.Resolve<IComplexityCalculator>();
-            new MetricsAdornment(textView, methodsExtractor, complexityCalculator);
+            var complexityCalculator = container.Resolve<ICyclomaticComplexityCalculator>();
+            var view = new MetricsAdornment(textView, methodsExtractor, complexityCalculator);
         }
     }
 }

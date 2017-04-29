@@ -11,7 +11,7 @@ namespace CodeMetrics.Adornments
         {
             if (value is Color)
             {
-                Color color = (Color)value;
+                var color = (Color)value;
                 return new SolidColorBrush(color);
             }
 

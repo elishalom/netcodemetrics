@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using CodeMetrics.Calculators;
+using CodeMetrics.Calculators.Contracts;
 using CodeMetrics.Options;
 using CodeMetrics.UserControls;
 using Moq;
@@ -80,7 +80,7 @@ namespace CodeMetrics.Adornments.Tests
 
         private static ComplexityViewModel AssigComplexity(Mock<IOptions> optionsMock, int expected = Expected)
         {
-            Mock<IComplexity> mockComplexity = CreateComplexityMock(expected);
+            Mock<ICyclomaticComplexity> mockComplexity = CreateComplexityMock(expected);
             var model = new ComplexityViewModel(optionsMock.Object);
             model.UpdateComplexity(mockComplexity.Object);
             return model;
@@ -92,9 +92,9 @@ namespace CodeMetrics.Adornments.Tests
             return new ComplexityViewModel(optionsMock.Object);
         }
 
-        private static Mock<IComplexity> CreateComplexityMock(int expected = Expected)
+        private static Mock<ICyclomaticComplexity> CreateComplexityMock(int expected = Expected)
         {
-            var mockComplexity = new Mock<IComplexity>();
+            var mockComplexity = new Mock<ICyclomaticComplexity>();
             mockComplexity.SetupGet(c => c.Value)
                 .Returns(() => expected);
             return mockComplexity;

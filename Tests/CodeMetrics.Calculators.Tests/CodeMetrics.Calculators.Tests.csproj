@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CodeMetrics.Calculators.Tests</RootNamespace>
     <AssemblyName>CodeMetrics.Calculators.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -95,6 +98,10 @@
     <Compile Include="ToStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CodeMetrics.Calculators.Contracts\CodeMetrics.Calculators.Contracts.csproj">
+      <Project>{693abc86-9566-46fd-b3e4-cfd3f7fadb16}</Project>
+      <Name>CodeMetrics.Calculators.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CodeMetrics.Calculators\CodeMetrics.Calculators.csproj">
       <Project>{CF35E234-7831-4A2B-8F18-BBB0F8621B10}</Project>
       <Name>CodeMetrics.Calculators</Name>
@@ -102,6 +109,10 @@
     <ProjectReference Include="..\..\CodeMetrics.Common\CodeMetrics.Common.csproj">
       <Project>{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}</Project>
       <Name>CodeMetrics.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CodeMetrics.Parsing.Contracts\CodeMetrics.Parsing.Contracts.csproj">
+      <Project>{8a09e5da-7069-4b85-b157-515f951c9dac}</Project>
+      <Name>CodeMetrics.Parsing.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\CodeMetrics.Parsing\CodeMetrics.Parsing.csproj">
       <Project>{4F281F92-DFF0-44DF-A150-A95DC83D727D}</Project>
@@ -111,6 +122,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
