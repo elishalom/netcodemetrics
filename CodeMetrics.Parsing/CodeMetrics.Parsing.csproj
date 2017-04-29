@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CodeMetrics.Parsing</RootNamespace>
     <AssemblyName>CodeMetrics.Parsing</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -56,6 +59,14 @@
       <HintPath>..\packages\ICSharpCode.NRefactory.5.5.1\lib\Net40\ICSharpCode.NRefactory.Xml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis, Version=1.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.3.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=1.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.3.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net40\Mono.Cecil.dll</HintPath>
       <Private>True</Private>
@@ -73,7 +84,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Reflection.Metadata, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,20 +103,54 @@
     <Compile Include="..\Version\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="IBranchesVisitor.cs" />
-    <Compile Include="IMethod.cs" />
-    <Compile Include="IMethodsExtractor.cs" />
-    <Compile Include="IMethodsVisitor.cs" />
-    <Compile Include="IMethodsVisitorFactory.cs" />
+    <Compile Include="Constructor.cs" />
+    <Compile Include="MethodDeclaration.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Method.cs" />
-    <Compile Include="MethodsExtractor.cs" />
-    <Compile Include="MethodsVisitor.cs" />
-    <Compile Include="NRefactoryExtensions.cs" />
+    <Compile Include="NRefactory\AstMethodsExtractor.cs" />
+    <Compile Include="NRefactory\AstMethodsVisitor.cs" />
+    <Compile Include="NRefactory\AstBranchesVisitor.cs" />
+    <Compile Include="NRefactory\AstConditionsVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Property.cs" />
+    <Compile Include="PropertyAccessor.cs" />
+    <Compile Include="PropertyDeclaration.cs" />
+    <Compile Include="Roslyn\ConstructorExtractor.cs" />
+    <Compile Include="Roslyn\InvocationExpressionPropertyTypeConvertor.cs" />
+    <Compile Include="Roslyn\InvocationExpressionPropertyTypeResolvingRule.cs" />
+    <Compile Include="Roslyn\DeclarationPropertyTypeConvertor.cs" />
+    <Compile Include="Roslyn\LiteralExpressionPropertyTypeConvertor.cs" />
+    <Compile Include="Roslyn\DeclarationPropertyTypeResolvingRule.cs" />
+    <Compile Include="Roslyn\LiteralExpressionPropertyTypeResolvingRule.cs" />
+    <Compile Include="Roslyn\MethodTypeConvertorBase.cs" />
+    <Compile Include="Roslyn\BodyMethodTypeConvertor.cs" />
+    <Compile Include="Roslyn\BodyMethodTypeResolvingRule.cs" />
+    <Compile Include="Roslyn\ExpressionBodyMethodTypeConvertor.cs" />
+    <Compile Include="Roslyn\ExpressionBodyMethodTypeResolvingRule.cs" />
+    <Compile Include="Roslyn\CSharpBranchesVisitor.cs" />
+    <Compile Include="Roslyn\DeclarationMethodTypeConvertor.cs" />
+    <Compile Include="Roslyn\DeclarationMethodTypeResolvingRule.cs" />
+    <Compile Include="Roslyn\MethodExtractor.cs" />
+    <Compile Include="Roslyn\MethodTypeResolver.cs" />
+    <Compile Include="Roslyn\CSharpMethodsExtractor.cs" />
+    <Compile Include="Roslyn\CSharpConditionsVisitor.cs" />
+    <Compile Include="Roslyn\PropertyAccessorExtractor.cs" />
+    <Compile Include="Roslyn\PropertyExtractor.cs" />
+    <Compile Include="Roslyn\PropertyTypeResolver.cs" />
+    <Compile Include="SyntaxNode.cs" />
+    <Compile Include="SyntaxNodeDeclaration.cs" />
+    <Compile Include="UnderlyingObject.cs" />
+    <Compile Include="UnderlyingObjectFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeMetrics.Parsing.Contracts\CodeMetrics.Parsing.Contracts.csproj">
+      <Project>{8a09e5da-7069-4b85-b157-515f951c9dac}</Project>
+      <Name>CodeMetrics.Parsing.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

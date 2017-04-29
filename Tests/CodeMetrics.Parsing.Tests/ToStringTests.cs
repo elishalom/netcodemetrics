@@ -9,7 +9,7 @@ namespace CodeMetrics.Parsing.Tests
         public void ValidLocationToString_ReturnsLineAndColumn()
         {
             var location = new Location(1, 2);
-            string locationText = location.ToString();
+            var locationText = location.ToString();
             Assert.AreEqual("Location:1,2", locationText, "Location ToString method should return line and column values");
         }
 
@@ -19,8 +19,8 @@ namespace CodeMetrics.Parsing.Tests
             var declaration = new Location(1, 2);
             var start = new Location(2, 3);
             var end = new Location(4, 5);
-            var method = new Method(declaration, start, end);
-            string methodText = method.ToString();
+            var method = new Method(declaration, start, end, null);
+            var methodText = method.ToString();
             Assert.AreEqual("Method:[1,2-2,3-4,5]", methodText, "Method ToString method should return line and column values");
         }
     }

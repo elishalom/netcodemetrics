@@ -1,29 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using CodeMetrics.Calculators;
-using CodeMetrics.Parsing;
+using CodeMetrics.Calculators.Contracts;
+using CodeMetrics.Parsing.Contracts;
 using CodeMetrics.UserControls;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
-using System.Linq;
 
 namespace CodeMetrics.Adornments
 {
     public class MetricsAdornment : IMetricsAdornment
     {
-        readonly IAdornmentLayer layer;
-        readonly IWpfTextView view;
+        private readonly IAdornmentLayer layer;
+        private readonly IWpfTextView view;
         private readonly IMethodsExtractor methodsExtractor;
-        private readonly IComplexityCalculator complexityCalculator;
-
-        private Dictionary<IMethod, string> methodToText;
-
+        private readonly ICyclomaticComplexityCalculator cyclomaticComplexityCalculator;
         private readonly Options.Options options = new Options.Options();
 
-        public MetricsAdornment(IWpfTextView view, IMethodsExtractor methodsExtractor, IComplexityCalculator complexityCalculator)
+        private Dictionary<ISyntaxNode, ISyntaxNode> syntaxNodes;
+
+        public MetricsAdornment(IWpfTextView view, IMethodsExtractor methodsExtractor, ICyclomaticComplexityCalculator cyclomaticComplexityCalculator)
         {
+            if (methodsExtractor == null) throw new ArgumentNullException(nameof(methodsExtractor));
+            if (cyclomaticComplexityCalculator == null) throw new ArgumentNullException(nameof(cyclomaticComplexityCalculator));
+
             this.view = view;
             layer = view.GetAdornmentLayer(MeticsAdornmentFactory.ADORNMENT_NAME);
 
@@ -31,7 +33,7 @@ namespace CodeMetrics.Adornments
             this.view.TextBuffer.PostChanged += OnTextBufferChanged;
 
             this.methodsExtractor = methodsExtractor;
-            this.complexityCalculator = complexityCalculator;
+            this.cyclomaticComplexityCalculator = cyclomaticComplexityCalculator;
 
             Init(view.TextSnapshot);
         }
@@ -44,26 +46,10 @@ namespace CodeMetrics.Adornments
 
         private void Init(ITextSnapshot textSnapshot)
         {
-            IEnumerable<IMethod> methods = methodsExtractor.Extract(textSnapshot.GetText())
-                .Where(method => method.BodyEnd.Line >= 0);
+            var methods = methodsExtractor.Extract(textSnapshot.GetText())
+                .OfType<ISyntaxNode>();
 
-            methodToText = methods.ToDictionary(method => method, method => GetText(textSnapshot, method));
-        }
-
-        private string GetText(ITextSnapshot textSnapshot, IMethod method)
-        {
-            return textSnapshot.GetText(GetMethodSpan(method));
-        }
-
-        private Span GetMethodSpan(IMethod method)
-        {
-            var startLine = view.TextSnapshot.GetLineFromLineNumber(method.BodyStart.Line);
-            var endLine = view.TextSnapshot.GetLineFromLineNumber(method.BodyEnd.Line);
-
-            int startPosition = startLine.Start.Position + method.BodyStart.Column;
-            int endPosition = endLine.Start.Position + method.BodyEnd.Column;
-
-            return Span.FromBounds(startPosition, endPosition);
+            syntaxNodes = methods.ToDictionary(method => method, method => method);
         }
 
         private void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
@@ -80,9 +66,9 @@ namespace CodeMetrics.Adornments
 
         private static bool IsVisibleAreaChanged(TextViewLayoutChangedEventArgs e)
         {
-            ViewState newState = e.NewViewState;
-            ViewState oldState = e.OldViewState;
-            bool isVisibleAreaChanged = newState.ViewportBottom == oldState.ViewportBottom &&
+            var newState = e.NewViewState;
+            var oldState = e.OldViewState;
+            var isVisibleAreaChanged = newState.ViewportBottom == oldState.ViewportBottom &&
                                         newState.ViewportHeight == oldState.ViewportHeight &&
                                         newState.ViewportLeft == oldState.ViewportLeft &&
                                         newState.ViewportRight == oldState.ViewportRight &&
@@ -96,29 +82,33 @@ namespace CodeMetrics.Adornments
             layer.RemoveAllAdornments();
             options.LoadSettingsFromStorage();
 
-            foreach (var pair in methodToText)
+            foreach (var pair in syntaxNodes)
             {
-                var geometry = view.TextViewLines.GetMarkerGeometry(textSnapshot.GetLineFromLineNumber(pair.Key.Decleration.Line).Extent);
+                var line = textSnapshot.GetLineFromLineNumber(pair.Key.Declaration.Line);
+                var geometry = view.TextViewLines.GetMarkerGeometry(line.Extent);
                 var isMethodVisible = geometry != null;
                 if (!isMethodVisible)
                 {
                     continue;
                 }
 
-                string methodText = methodToText[pair.Key];
-                
                 var complexityViewModel = new ComplexityViewModel(options);
                 var complexityView = new ComplexityView
-                                         {
-                                             DataContext = complexityViewModel
-                                         };
-                new Task(() => complexityViewModel.UpdateComplexity(complexityCalculator.Calculate(methodText))).Start();
+                {
+                    DataContext = complexityViewModel
+                };
+                CreateTask(complexityViewModel, pair.Key).Start();
 
                 Canvas.SetLeft(complexityView, geometry.Bounds.Left);
                 Canvas.SetTop(complexityView, geometry.Bounds.Top);
 
                 layer.AddAdornment(AdornmentPositioningBehavior.ViewportRelative, null, null, complexityView, null);
             }
+        }
+
+        private Task CreateTask(ComplexityViewModel complexityViewModel, ISyntaxNode syntaxNode)
+        {
+            return new Task(() => complexityViewModel.UpdateComplexity(cyclomaticComplexityCalculator.Calculate(syntaxNode)));
         }
     }
 }

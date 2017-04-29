@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CodeMetrics.Common;
+﻿using System.Linq;
 using NUnit.Framework;
 
 namespace CodeMetrics.Parsing.Tests
@@ -14,8 +12,8 @@ namespace CodeMetrics.Parsing.Tests
         [Test]
         public void Extract_FileWithSingleClassWithNoConstructor_ReturnNoConstructor()
         {
-            var methods = ExtractMethods(OneEmptyClass);
-            
+            var methods = ExtractSyntaxNodes(OneEmptyClass);
+
             Assert.That(methods, Is.Empty);
         }
 
@@ -25,14 +23,14 @@ namespace CodeMetrics.Parsing.Tests
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss()
+        public MyClass()
         {
         }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(1));
         }
@@ -43,14 +41,14 @@ namespace MyNamespace
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss(string construtorParam)
+        public MyClass(string constructorParam)
         {
         }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(1));
         }
@@ -61,18 +59,18 @@ namespace MyNamespace
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss(string construtorParam)
+        public MyClass(string constructorParam)
         {
         }
 
-        public MyCalss(int construtorParam)
+        public MyClass(int constructorParam)
         {
         }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(2));
         }
@@ -83,14 +81,14 @@ namespace MyNamespace
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss(string construtorParam) : base()
+        public MyClass(string constructorParam) : base()
         {
         }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(1));
         }
@@ -101,18 +99,18 @@ namespace MyNamespace
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss(string construtorParam) : this()
+        public MyClass(string constructorParam) : this()
         {
         }
 
-        public MyCalss()
+        public MyClass()
         {
         }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(2));
         }
@@ -123,21 +121,21 @@ namespace MyNamespace
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss()
+        public MyClass()
         {
         }
     }
 
-    public class MyCalssB
+    public class MyClassB
     {
-        public MyCalssB()
+        public MyClassB()
         {
         }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(2));
         }
@@ -148,21 +146,21 @@ namespace MyNamespace
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss()
+        public MyClass()
         {
         }
 
-        public class MyCalssB
+        public class MyClassB
         {
-            public MyCalssB()
+            public MyClassB()
             {
             }
         }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(2));
         }
@@ -173,12 +171,12 @@ namespace MyNamespace
             const string fileCode = @"using System;
 namespace MyNamespace
 {
-    public class MyCalss
+    public class MyClass
     {
-        public MyCalss() {        }
+        public MyClass() {        }
     }
 }";
-            var methods = ExtractMethods(fileCode);
+            var methods = ExtractSyntaxNodes(fileCode);
 
             Assert.That(methods.Count(), Is.EqualTo(1));
         }

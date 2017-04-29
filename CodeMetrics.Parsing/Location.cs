@@ -1,24 +1,26 @@
-﻿namespace CodeMetrics.Parsing
-{
-    public class Location
-    {
-        public int Line { get; private set; }
-        public int Column { get; private set; }
+﻿using CodeMetrics.Parsing.Contracts;
 
+namespace CodeMetrics.Parsing
+{
+    public class Location : ILocation
+    {
         public Location(int line, int column)
         {
             Line = line;
             Column = column;
         }
 
-        public override string ToString()
+        public int Line { get; }
+        public int Column { get; }
+
+        public string ToShortString()
         {
-            return string.Format("Location:{0},{1}", Line, Column);
+            return $"{Line},{Column}";
         }
 
-        internal string ToShortString()
+        public override string ToString()
         {
-            return string.Format("{0},{1}", Line, Column);
+            return $"Location:{ToShortString()}";
         }
     }
 }

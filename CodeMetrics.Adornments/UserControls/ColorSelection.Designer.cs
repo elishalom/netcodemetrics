@@ -1,4 +1,4 @@
-﻿namespace CodeMetrics.Options
+﻿namespace CodeMetrics.UserControls
 {
     partial class ColorSelection
     {

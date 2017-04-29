@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
+using CodeMetrics.Calculators.Contracts;
 using CodeMetrics.Common;
-using CodeMetrics.Parsing;
-using ICSharpCode.NRefactory.CSharp;
-using Moq;
+using CodeMetrics.Parsing.Contracts;
 using NUnit.Framework;
 
 namespace CodeMetrics.Calculators.Tests
@@ -10,13 +10,32 @@ namespace CodeMetrics.Calculators.Tests
     [TestFixture]
     public class ComplexityCalculatorTests
     {
-        private IBranchesVisitorFactory factory;
+        private ICyclomaticComplexityCalculator calculator;
+        private IMethodsExtractor extractor;
 
         [SetUp]
         public void Setup()
         {
-            var windsorContainer = ContainerFactory.CreateContainer();
-            factory = windsorContainer.Resolve<IBranchesVisitorFactory>();
+            var exceptionHandler = new TestExceptionHandler();
+            var windsorContainer = ContainerFactory.CreateContainer(exceptionHandler);
+            _ContainerType = ContainerSettings.ContainerType;
+            var calculatorFactory = windsorContainer.Resolve<ICyclomaticComplexityCalculatorFactory>();
+            calculator = calculatorFactory.Create();
+            var extractorFactory = windsorContainer.Resolve<IMethodsExtractorFactory>();
+            extractor = extractorFactory.Create();
+        }
+
+        private string _ContainerType;
+        protected string ContainerType => _ContainerType;
+
+        protected void AssertContainerType(string relevantContainerType)
+        {
+            if (ContainerType == relevantContainerType)
+            {
+                return;
+            }
+
+            Assert.Inconclusive();
         }
 
         [Test]
@@ -36,12 +55,21 @@ namespace CodeMetrics.Calculators.Tests
             const string method =
                 @"try { } catch (Exception ex) { }";
 
-            var calculator = new ComplexityCalculator(factory);
-            var complexity = calculator.Calculate(method);
+            var complexity = CalculateMethodComplexity(method);
 
             Assert.That(complexity.Value, Is.EqualTo(2));
         }
 
+        [Test]
+        public void Calculate_MethodWithTryAndMultipleCatch_Return3()
+        {
+            const string method =
+                @"try { } catch (InvalidOperationException ioe) { } catch (Exception ex) { }";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
 
         [Test]
         public void Calculate_MethodWithSingleIfWithoutElse_Return2()
@@ -394,37 +422,6 @@ do
             Assert.That(complexity.Value, Is.EqualTo(4));
         }
 
-        private IComplexity CalculateMethodComplexity(string method)
-        {
-            var calculator = new ComplexityCalculator(factory);
-            return calculator.Calculate(method);
-        }
-
-        [Test]
-        public void Calculate_ThrownsNullReferenceException_Returns1()
-        {
-            // here the method it self doesnt have to be invalid, the factory is failing
-            const string method = @"if(b1) { }";
-            var stubFactory = SetupFailingStubFactory();
-
-            var calculator = new ComplexityCalculator(stubFactory.Object);
-            var complexity = calculator.Calculate(method);
-
-            Assert.That(complexity.Value, Is.EqualTo(1));
-        }
-
-        private static Mock<IBranchesVisitorFactory> SetupFailingStubFactory()
-        {
-            var failinVisitor = new Mock<DepthFirstAstVisitor>();
-            var falingCalculator = failinVisitor.As<IBranchesVisitor>();
-            failinVisitor.Setup(visitor => visitor.VisitIfElseStatement(It.IsAny<IfElseStatement>()))
-                         .Throws<NullReferenceException>();
-            var stubFactory = new Mock<IBranchesVisitorFactory>();
-            stubFactory.Setup(stub => stub.CreateBranchesVisitor())
-                       .Returns(falingCalculator.Object);
-            return stubFactory;
-        }
-
         [Test]
         public void Calculate_TrinaryOperator_Return3()
         {
@@ -437,15 +434,165 @@ do
         }
 
         [Test]
-        public void Calculate_Coalescing_Operator_Return3()
+        public void Calculate_Coalescing_Operator_Return2()
         {
             const string method = @"
-object a null;
-object b = a ?? string.Emtpy";
+object a = null;
+object b = a ?? string.Empty";
 
             var complexity = CalculateMethodComplexity(method);
 
-            Assert.That(complexity.Value, Is.EqualTo(3)); 
+            Assert.That(complexity.Value, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Calculate_SingleObjectInitializer_ShouldReturn1()
+        {
+            const string method = @"
+var p1 = new Person
+{
+    Name = string.Empty
+};";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Calculate_MultipleObjectInitializer_ShouldReturn1()
+        {
+            const string method = @"
+var p1 = new Person
+{
+    Name = string.Empty
+};
+var p2 = new Person
+{
+    Name = string.Empty
+};";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Calculate_ConditionalAccessExpression_ShouldReturn2()
+        {
+            AssertContainerType(ContainerSettings.ROSLYN_INSTALLER_TYPE_NAME);
+
+            const string method = @"
+var numbers = new int[] { 10, 20 };
+return numbers?.ToList();
+";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Calculate_ExpressionWithOrOperator_ShouldReturn3()
+        {
+            const string method = @"
+int type = 1;
+int? kind = null;
+return kind == null || type != 1;
+";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Calculate_SingleObjectInitializerWithBinaryExpression_ShouldReturn2()
+        {
+            const string method = @"
+string name = null;
+var p1 = new Person
+{
+    Name = name ?? string.Empty
+};";
+
+            var complexity = CalculateMethodComplexity(method);
+
+            Assert.That(complexity.Value, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Calculate_SingleInterfaceWithSingleMethod_ShouldReturnDefaultValue()
+        {
+            const string fileCode = @"using System;
+
+namespace SomeNamespace
+{
+    public interface ISomeInterface
+    {
+        void SomeMethod(object input);
+    }
+}";
+
+            var syntaxNodes = extractor.Extract(fileCode);
+            var syntaxNode = syntaxNodes.OfType<ISyntaxNode>().FirstOrDefault();
+
+            var complexity = calculator.Calculate(syntaxNode);
+            Assert.That(complexity.Value, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Calculate_SingleAbstractClassWithSingleAbstractMethod_ShouldReturnDefaultValue()
+        {
+            const string fileCode = @"using System;
+
+namespace SomeNamespace
+{
+    public abstract class SomeAbstractClass
+    {
+        public abstract void SomeMethod(object input);
+    }
+}";
+
+            var syntaxNodes = extractor.Extract(fileCode);
+            var syntaxNode = syntaxNodes.OfType<ISyntaxNode>().FirstOrDefault();
+
+            var complexity = calculator.Calculate(syntaxNode);
+            Assert.That(complexity.Value, Is.EqualTo(1));
+        }
+
+        private ICyclomaticComplexity CalculateMethodComplexity(string method)
+        {
+            var fileCode = @"using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MyNamespace
+{
+    private class MyPerson
+    {
+        public string Name { get; set; }
+    }
+
+    public class MyClass
+    {
+        public void MyMethod()
+        {
+            " + method + @"
+        }
+    }
+}";
+            var syntaxNodes = extractor.Extract(fileCode);
+            var syntaxNode = syntaxNodes.OfType<ISyntaxNode>().FirstOrDefault();
+
+            return calculator.Calculate(syntaxNode);
+        }
+    }
+
+    public class TestExceptionHandler : IExceptionHandler
+    {
+        public void HandleException(Exception exception)
+        {
         }
     }
 }

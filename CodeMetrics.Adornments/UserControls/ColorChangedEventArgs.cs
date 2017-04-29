@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace CodeMetrics.Options
+namespace CodeMetrics.UserControls
 {
     internal class ColorChangedEventArgs : EventArgs
     {

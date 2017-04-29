@@ -73,6 +73,10 @@
       <Project>{761e5998-c690-4b1a-949f-6298f7c50464}</Project>
       <Name>CodeMetrics.Adornments</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CodeMetrics.Calculators.Contracts\CodeMetrics.Calculators.Contracts.csproj">
+      <Project>{693abc86-9566-46fd-b3e4-cfd3f7fadb16}</Project>
+      <Name>CodeMetrics.Calculators.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CodeMetrics.Calculators\CodeMetrics.Calculators.csproj">
       <Project>{CF35E234-7831-4A2B-8F18-BBB0F8621B10}</Project>
       <Name>CodeMetrics.Calculators</Name>
