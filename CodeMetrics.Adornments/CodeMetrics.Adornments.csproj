@@ -17,7 +17,7 @@
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -310,6 +310,8 @@
     <ProjectReference Include="..\CodeMetrics.Common\CodeMetrics.Common.csproj">
       <Project>{85E6E6BC-C02E-4A46-9779-BD8AC95A46A7}</Project>
       <Name>CodeMetrics.Common</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
     <ProjectReference Include="..\CodeMetrics.Parsing.Contracts\CodeMetrics.Parsing.Contracts.csproj">
       <Project>{8a09e5da-7069-4b85-b157-515f951c9dac}</Project>

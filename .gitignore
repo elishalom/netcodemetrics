@@ -2,9 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+**/obj/**
+**/bin/**
+packages/**
+.vs/CodeMetrics/v15/.suo
 /.vs/CodeMetrics/v14/.suo
-/CodeMetrics.Adornments/bin
-/CodeMetrics.Adornments/obj
-/CodeMetrics.Adornments/obj
-/CodeMetrics.Calculators/bin
-/CodeMetrics.Calculators/obj
