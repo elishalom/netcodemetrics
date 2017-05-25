@@ -6,3 +6,4 @@
 **/bin/**
 .vs/CodeMetrics/v15/.suo
 /.vs/CodeMetrics/v14/.suo
+*.user
