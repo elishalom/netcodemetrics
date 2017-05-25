@@ -30,14 +30,21 @@ namespace CodeMetrics.Parsing.Roslyn
                 .OfType<PropertyDeclarationSyntax>()
                 .Select(Convert);
 
-            return methods;
+            return methods.Where(snd => snd != null);
         }
 
         private ISyntaxNodeDeclaration Convert(PropertyDeclarationSyntax propertyDeclarationSyntax)
         {
-            var propertyType = GetMethodType(propertyDeclarationSyntax);
-            var convertor = convertors.First(c => c.TargetType == propertyType);
-            return convertor.Convert(propertyDeclarationSyntax);
+            try
+            {
+                var propertyType = GetMethodType(propertyDeclarationSyntax);
+                var convertor = convertors.First(c => c.TargetType == propertyType);
+                return convertor.Convert(propertyDeclarationSyntax);
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         private PropertyType GetMethodType(PropertyDeclarationSyntax propertyDeclarationSyntax)
