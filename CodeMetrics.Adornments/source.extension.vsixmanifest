@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="CodeMetrices.9dc27cdd-a2d5-4598-95e0-2635827a21c3" Version="0.9.1.0" Language="en-US" Publisher="Eli Shalom" />
+        <Identity Id="CodeMetrices.9dc27cdd-a2d5-4598-95e0-2635827a21c3" Version="0.9.1.1" Language="en-US" Publisher="Eli Shalom" />
         <DisplayName>Code Metrices</DisplayName>
         <Description>Code complexity addin</Description>
     </Metadata>

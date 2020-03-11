@@ -93,12 +93,19 @@ namespace CodeMetrics.Adornments
 
         private void RepaintComplexity(ITextSnapshot textSnapshot)
         {
+            IWpfTextViewLineCollection textViewLines = view.TextViewLines;
+
+            if(textViewLines is null)
+            {
+                return;
+            }
+
             layer.RemoveAllAdornments();
             options.LoadSettingsFromStorage();
 
             foreach (var pair in methodToText)
-            {
-                var geometry = view.TextViewLines.GetMarkerGeometry(textSnapshot.GetLineFromLineNumber(pair.Key.Decleration.Line).Extent);
+            {                
+                var geometry = textViewLines.GetMarkerGeometry(textSnapshot.GetLineFromLineNumber(pair.Key.Decleration.Line).Extent);
                 var isMethodVisible = geometry != null;
                 if (!isMethodVisible)
                 {
